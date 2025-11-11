@@ -13485,18 +13485,39 @@
 					</Points>
 				</Connector>
 			</Connectors>
-			<DynamicEvents>
-				<DynamicEventClass>
-					<Id>1762864615741</Id>
-					<Name><![CDATA[InitStep]]></Name>
+			<Events>
+				<Event>
+					<Id>1762868372745</Id>
+					<Name><![CDATA[event]]></Name>
 					<X>160</X><Y>-480</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Action><![CDATA[traceln("Dummy event fired at t=" + getEngine().getTime());]]></Action>
-				</DynamicEventClass>
-			</DynamicEvents>
+					<Properties TriggerType="timeout" Mode="cyclic">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</Timeout>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
+						</Rate>
+						<Id>1762868372743</Id>
+						<OccurrenceAtTime>true</OccurrenceAtTime>
+						<OccurrenceDate>1762934400000</OccurrenceDate>
+						<OccurrenceTime Class="CodeUnitValue">
+							<Code><![CDATA[0]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</OccurrenceTime>
+						<RecurrenceCode Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</RecurrenceCode>
+						<Condition><![CDATA[false]]></Condition>
+					</Properties>
+				</Event>
+			</Events>
 			<Functions>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -13887,10 +13908,7 @@ return -total_congestion;]]></Body>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[final long HOUR = 60 * 60 * 1000;
-if (time() >= 1.0 * HOUR) return true;
-return false;
-]]></Body>
+					<Body><![CDATA[return false;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -95754,9 +95772,9 @@ if (bestInfeasibleObjective != Double.POSITIVE_INFINITY) {
 			<SeedValue>10</SeedValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
-				<InitialDate><![CDATA[1759977000000]]></InitialDate>	
+				<InitialDate><![CDATA[1760211900000]]></InitialDate>	
 				<InitialTime><![CDATA[0.0]]></InitialTime>	
-				<FinalDate><![CDATA[1759980600000]]></FinalDate>	
+				<FinalDate><![CDATA[1760215500000]]></FinalDate>	
 				<FinalTime><![CDATA[3600.0]]></FinalTime>	
 			</ModelTimeProperties>
 			<ObservationField>
@@ -96252,7 +96270,7 @@ if (bestInfeasibleObjective != Double.POSITIVE_INFINITY) {
 				<Type><![CDATA[int]]></Type>
 			</ObservationField>
 			<ObservationCode><![CDATA[root.getObservation(observation);]]></ObservationCode>
-			<StopCondition><![CDATA[true]]></StopCondition>
+			<StopCondition><![CDATA[root.isTerminal()]]></StopCondition>
 			<ActionField>
 				<Name><![CDATA[Phase]]></Name>
 				<Type><![CDATA[double]]></Type>
