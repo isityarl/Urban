@@ -3,7 +3,10 @@ import numpy as np
 from alpyne.constants import EngineState
 from alpyne.sim import AnyLogicSim
 from alpyne.utils import next_num
-import DQNAgent
+from DQNAgent import DQNAgent
+from DQN import DQN
+from ReplayBuffer import ReplayBuffer
+
 
 ACTION_DIMENSION = 30
 TRAFFIC_LIGHT_INPUTS = ['Phase'] + [f'Phase{i}' for i in range(1, ACTION_DIMENSION)]
