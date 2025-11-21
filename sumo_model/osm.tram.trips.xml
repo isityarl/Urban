@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-11-19 05:33:20.898476 by osmWebWizard.py v1_24_0+0000-b72eb3fabc8
+<configuration>
+    <net-file value="/home/yarl/Desktop/sumo/tools/2025-11-19-05-32-17/osm.net.xml.gz"/>
+    <output-trip-file value="/home/yarl/Desktop/sumo/tools/2025-11-19-05-32-17/osm.tram.trips.xml"/>
+    <route-file value="/home/yarl/Desktop/sumo/tools/2025-11-19-05-32-17/osm.tram.rou.xml"/>
+    <prefix value="tram"/>
+    <trip-attributes value="departLane=&quot;best&quot;"/>
+    <fringe-start-attributes value="departSpeed=&quot;max&quot;"/>
+    <vehicle-class value="tram"/>
+    <fringe-factor value="20"/>
+    <edge-permission value="tram"/>
+    <via-edge-types value="highway.motorway,highway.motorway_link,highway.trunk_link,highway.primary_link,highway.secondary_link,highway.tertiary_link"/>
+    <seed value="45"/>
+    <min-distance value="1200.0"/>
+    <min-distance.fringe value="10.0"/>
+    <remove-loops value="True"/>
+    <insertion-density value="2.0"/>
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vType id="tram_tram" vClass="tram"/>
+    <trip id="tram0" depart="0.00" from="1307961584#0" to="1307961584#1" departLane="best" type="tram_tram" departSpeed="max"/>
+    <trip id="tram1" depart="1494.50" from="1307961584#0" to="1307961584#1" departLane="best" type="tram_tram" departSpeed="max"/>
+    <trip id="tram2" depart="2988.99" from="1307961584#0" to="1307961584#1" departLane="best" type="tram_tram" departSpeed="max"/>
+</routes>
