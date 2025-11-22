@@ -18,18 +18,18 @@ class SumoEnv:
 
         self.current = 0
 
-    def find_all_intersections(self):
+    def find_all_intersections(self): # Список светофоров
         net = sumolib.net.readNet(self.net_path)
         tls = [n.getID() for n in net.getTrafficLights()]
         return tls
 
-    def load_tls_phases(self, tls):
+    def load_tls_phases(self, tls): # Список фаз для опрелеленного светофора
         net = sumolib.net.readNet(self.net_path)
         tl = net.getTrafficLight(tls)
         phases = [p.state for p in tl.getPrograms()[0].phases]
         return phases
     
-    def reset(self):
+    def reset(self): # Перезапуск среды + начальное состояние
         if traci.isLoaded():
             traci.close()
 
@@ -40,7 +40,7 @@ class SumoEnv:
         return self.get_state()
 
     
-    def get_state(self):
+    def get_state(self): # Берем инфу о состоянии среды
         state = []
         for tls in self.controlled_tls:
             lanes = traci.trafficlight.getControlledLanes(tls)
@@ -52,7 +52,7 @@ class SumoEnv:
 
         return state
 
-    def step(self, actions):
+    def step(self, actions): # Делаем шаг с заданным action
         for tls, action in actions.items():
             traci.trafficlight.setPhase(tls, action)
 
@@ -64,7 +64,7 @@ class SumoEnv:
 
         return state, reward, done, {}
     
-    def get_reward(self):
+    def get_reward(self): # Вычисляем reward
         total_queue = 0
         total_delay = 0
 
@@ -80,7 +80,7 @@ class SumoEnv:
         alpha = 1
         beta = 0.25
 
-        reward = -(alpha * total_queue + beta * total_delay)
+        reward = -(alpha * total_queue + beta * total_delay) #формула
         return reward
 
     
