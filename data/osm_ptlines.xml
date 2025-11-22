@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-11-22 00:20:57 by Eclipse SUMO netconvert Version 1.24.0
+<netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <type-files value="${SUMO_HOME}/data/typemap/osmNetconvert.typ.xml,${SUMO_HOME}/data/typemap/osmNetconvertAerialway.typ.xml"/>
+        <osm-files value="osm_bbox.osm.xml.gz"/>
+    </input>
+
+    <output>
+        <output-file value="osm.net.xml.gz"/>
+        <output.street-names value="true"/>
+        <output.original-names value="true"/>
+        <ptstop-output value="osm_stops.add.xml"/>
+        <ptline-output value="osm_ptlines.xml"/>
+        <ptline-clean-up value="true"/>
+    </output>
+
+    <projection>
+        <proj.utm value="true"/>
+    </projection>
+
+    <processing>
+        <geometry.remove value="true"/>
+        <roundabouts.guess value="true"/>
+    </processing>
+
+    <tls_building>
+        <tls.discard-simple value="true"/>
+        <tls.join value="true"/>
+        <tls.guess-signals value="true"/>
+        <tls.default-type value="actuated"/>
+    </tls_building>
+
+    <ramp_guessing>
+        <ramps.guess value="true"/>
+    </ramp_guessing>
+
+    <junctions>
+        <junctions.join value="true"/>
+        <junctions.corner-detail value="5"/>
+    </junctions>
+
+    <railway>
+        <railway.topology.repair value="true"/>
+    </railway>
+
+</netconvertConfiguration>
+-->
+
+<ptLines xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/ptlines_file.xsd">
+    <ptLine id="14448769" name="Троллейбус 19" line="19" type="trolleybus" vClass="bus" color="119,187,65" completeness="0.03" missingBefore="1" missingAfter="27">
+        <busStop id="4609465553" name="КазДорНИИ"/>
+    </ptLine>
+    <ptLine id="14449309" name="Троллейбус 19" line="19" type="trolleybus" vClass="bus" color="150,211,95" completeness="0.33" missingBefore="1">
+        <busStop id="13282398944" name="Кабанбай батыра"/>
+    </ptLine>
+    <ptLine id="17869956" line="18" type="bus" vClass="bus" completeness="0.02" missingBefore="16" missingAfter="21">
+        <route edges="-208514988#7 -208514988#6 -208514988#5 -208514988#3 -208514988#2 -208514988#1 -208514988#0 -208515007#0"/>
+        <busStop id="-8973640745" name="Школа РФМШ"/>
+    </ptLine>
+    <ptLine id="18636243" name="Троллейбус №5" line="5" type="trolleybus" vClass="bus" color="150,211,95" completeness="0.23" missingBefore="5" missingAfter="2">
+        <busStop id="12548312415" name="Магазин Детский мир"/>
+        <busStop id="12548312416" name="Улица Кабанбай батыра"/>
+        <busStop id="12548312417" name=""/>
+    </ptLine>
+    <ptLine id="19321144" name="Автобус 12" line="12" type="bus" vClass="bus" period="960" color="102,156,53" completeness="0.00" missingBefore="7" missingAfter="35"/>
+    <ptLine id="19344611" name="Автобус 128" line="128" type="bus" vClass="bus" completeness="0.60">
+        <busStop id="2917279368" name="улица Жолдасбекова"/>
+        <busStop id="5199458458" name="Достык"/>
+        <busStop id="5199458458" name="Достык"/>
+    </ptLine>
+    <ptLine id="19344612" name="Автобус 48" line="48" type="bus" vClass="bus" completeness="0.50">
+        <busStop id="2917279368" name="улица Жолдасбекова"/>
+        <busStop id="12994546039" name="Самал 1-й микрорайон"/>
+    </ptLine>
+    <ptLine id="19344613" name="Автобус 45" line="45" type="bus" vClass="bus" completeness="0.33" missingAfter="2">
+        <busStop id="2917279368" name="улица Жолдасбекова"/>
+        <busStop id="5199458458" name="Достык"/>
+    </ptLine>
+    <ptLine id="19566691" name="Bus 16" line="16" type="bus" vClass="bus" color="119,187,65" completeness="0.40">
+        <busStop id="12646933735" name="улица Айтиева"/>
+        <busStop id="13120667454" name="Нурмакова"/>
+        <busStop id="13120667506" name="Байзакова"/>
+        <busStop id="13120667507" name="Муканова"/>
+    </ptLine>
+    <ptLine id="19566692" name="Bus 37" line="37" type="bus" vClass="bus" color="119,187,65" completeness="0.50">
+        <busStop id="12646933735" name="улица Айтиева"/>
+        <busStop id="13120667454" name="Нурмакова"/>
+        <busStop id="13120667506" name="Байзакова"/>
+        <busStop id="13120667507" name="Муканова"/>
+    </ptLine>
+    <ptLine id="19566693" name="Bus 48" line="48" type="bus" vClass="bus" color="119,187,65" completeness="0.40">
+        <busStop id="12646933735" name="улица Айтиева"/>
+        <busStop id="13120667454" name="Нурмакова"/>
+        <busStop id="13120667506" name="Байзакова"/>
+        <busStop id="13120667507" name="Муканова"/>
+    </ptLine>
+    <ptLine id="19566694" name="Bus 59" line="59" type="bus" vClass="bus" color="119,187,65" completeness="0.43">
+        <busStop id="12646933735" name="улица Айтиева"/>
+        <busStop id="13120667454" name="Нурмакова"/>
+        <busStop id="13120667506" name="Байзакова"/>
+    </ptLine>
+    <ptLine id="19566695" name="Bus 99" line="99" type="bus" vClass="bus" color="119,187,65" completeness="0.40">
+        <busStop id="12646933735" name="улица Айтиева"/>
+        <busStop id="13120667454" name="Нурмакова"/>
+        <busStop id="13120667506" name="Байзакова"/>
+        <busStop id="13120667507" name="Муканова"/>
+    </ptLine>
+    <ptLine id="19566696" name="Bus 126" line="126" type="bus" vClass="bus" color="255,249,149" completeness="0.40">
+        <busStop id="12646933735" name="улица Айтиева"/>
+        <busStop id="13120667454" name="Нурмакова"/>
+        <busStop id="13120667506" name="Байзакова"/>
+        <busStop id="13120667507" name="Муканова"/>
+    </ptLine>
+    <ptLine id="19566709" name="Bus 119" line="119" type="bus" vClass="bus" completeness="0.33">
+        <busStop id="13120667506" name="Байзакова"/>
+        <busStop id="13120667507" name="Муканова"/>
+    </ptLine>
+    <ptLine id="19566710" name="Bus 201" line="201" type="bus" vClass="bus" completeness="0.33">
+        <busStop id="13120667506" name="Байзакова"/>
+        <busStop id="13120667507" name="Муканова"/>
+    </ptLine>
+    <ptLine id="19566711" name="Bus 206" line="206" type="bus" vClass="bus" completeness="0.33">
+        <busStop id="13120667506" name="Байзакова"/>
+        <busStop id="13120667507" name="Муканова"/>
+    </ptLine>
+    <ptLine id="19566712" name="Bus 58" line="58" type="bus" vClass="bus" completeness="0.33">
+        <busStop id="13120667507" name="Муканова"/>
+    </ptLine>
+    <ptLine id="19571823" name="Bus 62" line="62" type="bus" vClass="bus" completeness="0.50">
+        <busStop id="27518971" name="ГКБ №12"/>
+    </ptLine>
+    <ptLine id="19571824" name="Bus 66" line="66" type="bus" vClass="bus" completeness="0.50">
+        <busStop id="27518971" name="ГКБ №12"/>
+        <busStop id="13123356461" name="ГКБ №12"/>
+    </ptLine>
+    <ptLine id="19571825" name="Bus 95" line="95" type="bus" vClass="bus" completeness="0.50">
+        <busStop id="27518971" name="ГКБ №12"/>
+    </ptLine>
+    <ptLine id="19571826" name="Bus 98" line="98" type="bus" vClass="bus" completeness="0.50">
+        <busStop id="27518971" name="ГКБ №12"/>
+        <busStop id="13123356461" name="ГКБ №12"/>
+    </ptLine>
+    <ptLine id="19571827" name="Bus 112" line="112" type="bus" vClass="bus" completeness="0.50">
+        <busStop id="27518971" name="ГКБ №12"/>
+        <busStop id="13123356461" name="ГКБ №12"/>
+    </ptLine>
+    <ptLine id="19571828" name="Bus 121" line="Bus 121" type="bus" vClass="bus" completeness="0.50">
+        <busStop id="27518971" name="ГКБ №12"/>
+    </ptLine>
+    <ptLine id="19571829" name="Bus 123" line="123" type="bus" vClass="bus" completeness="0.50">
+        <busStop id="27518971" name="ГКБ №12"/>
+    </ptLine>
+    <ptLine id="19571830" line="6" type="trolleybus" vClass="bus" completeness="0.50">
+        <busStop id="27518971" name="ГКБ №12"/>
+        <busStop id="13123356461" name="ГКБ №12"/>
+    </ptLine>
+    <ptLine id="19579682" name="Bus 5А" line="5А" type="bus" vClass="bus" completeness="0.18" missingAfter="9">
+        <busStop id="5199458458" name="Достык"/>
+        <busStop id="13128216848" name="Достык"/>
+    </ptLine>
+    <ptLine id="19579683" name="Bus 5Б" line="5Б" type="bus" vClass="bus" completeness="0.18" missingAfter="9">
+        <busStop id="5199458458" name="Достык"/>
+        <busStop id="13128216848" name="Достык"/>
+    </ptLine>
+    <ptLine id="19579684" name="Bus 29" line="29" type="bus" vClass="bus" completeness="0.25" missingAfter="6">
+        <busStop id="5199458458" name="Достык"/>
+        <busStop id="13128216848" name="Достык"/>
+    </ptLine>
+    <ptLine id="19579685" name="Bus 29Р" line="29Р" type="bus" vClass="bus" completeness="0.25" missingAfter="6">
+        <busStop id="5199458458" name="Достык"/>
+        <busStop id="13128216848" name="Достык"/>
+    </ptLine>
+    <ptLine id="19579686" name="Bus 95" line="95" type="bus" vClass="bus" completeness="0.25" missingAfter="6">
+        <busStop id="5199458458" name="Достык"/>
+        <busStop id="13128216848" name="Достык"/>
+    </ptLine>
+    <ptLine id="19579687" name="Bus 99" line="99" type="bus" vClass="bus" completeness="0.25" missingAfter="6">
+        <busStop id="5199458458" name="Достык"/>
+        <busStop id="13128216848" name="Достык"/>
+    </ptLine>
+    <ptLine id="19579688" name="Bus 107" line="107" type="bus" vClass="bus" completeness="0.25" missingAfter="6">
+        <busStop id="5199458458" name="Достык"/>
+        <busStop id="13128216848" name="Достык"/>
+    </ptLine>
+    <ptLine id="19579689" name="Bus 141" line="141" type="bus" vClass="bus" completeness="0.25" missingAfter="6">
+        <busStop id="5199458458" name="Достык"/>
+        <busStop id="13128216848" name="Достык"/>
+    </ptLine>
+    <ptLine id="19582285" line="7" type="trolleybus" vClass="bus" completeness="0.67" missingAfter="1">
+        <route edges="1428240097#0 1428240097#1 -1428240097#1 -1428240097#0 692910574 1428240092"/>
+        <busStop id="-11987100480" name="улица Байтурсынова"/>
+        <busStop id="13130547108" name="улица Байтурсынова"/>
+    </ptLine>
+    <ptLine id="19582286" line="9" type="trolleybus" vClass="bus" completeness="0.67" missingAfter="1">
+        <route edges="-1428240092 -692910574 -1428240097#1 -1428240097#0"/>
+        <busStop id="-11987100480" name="улица Байтурсынова"/>
+        <busStop id="13130547108" name="улица Байтурсынова"/>
+    </ptLine>
+    <ptLine id="19582287" line="11" type="trolleybus" vClass="bus" completeness="0.67" missingAfter="1">
+        <route edges="-1428240092 -692910574 -1428240097#1 -1428240097#0"/>
+        <busStop id="-11987100480" name="улица Байтурсынова"/>
+        <busStop id="13130547108" name="улица Байтурсынова"/>
+    </ptLine>
+    <ptLine id="19780502" name="Автобус 5" line="5" type="bus" vClass="bus" completeness="0.08" missingBefore="1" missingAfter="23">
+        <route edges="911230567 911230140#0 911229690#1 911229690#2 911229690#3 1424920393#0 1424920393#1 691145130#1 691145130#2 691145130#3 691145130#4 691145130#5 911227326#0 911227003 911226159#0 911225815#1 911225815#2 -533944576#1 533334595#0 207810531#1 911222968#0 911222968#1 911222968#2 911222968#3 911222968#4 911222968#5 911222968#6 911222968#7 911222968#8 385200736#1 911221184#0 911221184#3 911221034 911221033#0 911221033#1 911221033#2"/>
+        <busStop id="10279705077" name="Кинотеатр «Арман»"/>
+        <busStop id="10279716959" name="Мектеп оқушылары сарайы"/>
+    </ptLine>
+    <ptLine id="19795100" name="Троллейбус 9" line="9" type="trolleybus" vClass="bus" color="119,187,65" completeness="0.94">
+        <route edges="1185785532#1 1185785532#3 1185785532#4 1185785532#6 257724840#1 257724840#2 257724840#3 257724840#4 257724840#5 257724840#6 1185785531#1 912363096#1 912363096#2 912363096#3 912363096#4 912363096#7 912363096#9 911115666#1 911115666#3 911115666#6 920731516#1 920731516#2 920731516#3 920731516#4 920731516#5 920731516#6 1240708075#0"/>
+        <busStop id="13282388881" name="Гимназия №36"/>
+        <busStop id="11225421950" name="Сейфуллина"/>
+        <busStop id="13282388899" name="Сейфуллина"/>
+        <busStop id="13282388900" name="Наурызбай батыра"/>
+        <busStop id="13282398901" name="Наурызбай батыра"/>
+        <busStop id="13282398911" name=""/>
+        <busStop id="11015644387" name="проспект Абылай хана"/>
+        <busStop id="11015644367" name="проспект Абылай хана"/>
+        <busStop id="13282398917" name="Назарбаева"/>
+        <busStop id="13282398918" name="Назарбаева"/>
+        <busStop id="13282398919" name="Назарбаева"/>
+        <busStop id="13282398920" name="Назарбаева"/>
+        <busStop id="13282398936" name="Кунаева"/>
+        <busStop id="13282398937" name="Кунаева"/>
+        <busStop id="13282398938" name="Кунаева"/>
+        <busStop id="12240659214" name="Кунаева"/>
+    </ptLine>
+    <ptLine id="3014421" line="4" type="bus" vClass="bus" completeness="0.00" missingBefore="2"/>
+    <ptLine id="3428608" line="120" type="bus" vClass="bus" completeness="0.37" missingBefore="15" missingAfter="1">
+        <route edges="257692802#0 257692802#1 257692802#2 257692802#3 257692802#4 257692802#6 257692802#7 257692802#8 257692802#9 257692802#10 257692802#11 257692802#12 214215443#1 257692795#0 257692795#1 257692795#2 257692795#3 257692795#4 257692795#5 257692795#6 257692795#7 257692795#8 257692795#9 1341390075#0 1341390075#1 1374191445#0 1374191445#2 1374191445#3 1374191445#3-AddedOffRampEdge 1374191445#4 1374191445#5 228767495#0 228767495#1 228767495#2 228767495#3 228767495#4 228767495#5 1390634521#0 228767496#1 228767496#2 229862353#1 258025938#1 912369915 258025929#0 258025929#1 258025929#2 171895222#1 258025932#0 258025932#1"/>
+        <busStop id="2631725885" name=""/>
+        <busStop id="1201876226" name="Гимназия №62"/>
+        <busStop id="2631725880" name=""/>
+        <busStop id="2577857353" name="Розыбакиева"/>
+        <busStop id="2631725847" name="Гагарина"/>
+        <busStop id="2631725861" name="Жарокова"/>
+        <busStop id="2476292136" name="Байзакова"/>
+        <busStop id="1382576965" name=""/>
+        <busStop id="2575296395" name="Наурызбай батыр көшесі"/>
+        <busStop id="1078775945" name="Наурызбай батыра"/>
+        <busStop id="2634540466" name="Национальная библиотека"/>
+        <busStop id="2481756375" name="Назарбаева"/>
+        <busStop id="2634540535" name="Дворец Республики"/>
+    </ptLine>
+    <ptLine id="5555280" name="Бірінші бағыт: Райымбек батыра → Бауыржан Момышұлы" line="1" type="subway" vClass="subway" color="red" completeness="0.55" missingBefore="2" missingAfter="3">
+        <route edges="244967942#0 244967942#1"/>
+        <busStop id="2522351051" name="Алмалы"/>
+        <busStop id="2522351049" name="Абай"/>
+        <busStop id="2522351052" name="Байқоңыр"/>
+        <busStop id="2522351055" name="Мұхтар Әуезов атындағы театры"/>
+        <busStop id="2522351050" name="Алатау"/>
+        <busStop id="3464799079" name="Сайран"/>
+    </ptLine>
+    <ptLine id="5731411" name="428" line="428" type="bus" vClass="bus" completeness="0.03" missingBefore="1" missingAfter="29">
+        <busStop id="1794599637" name="проспект Абая"/>
+    </ptLine>
+    <ptLine id="7734271" name="Бірінші бағыт: Бауыржан Момышұлы → Райымбек батыра" line="1" type="subway" vClass="subway" color="red" completeness="0.55" missingBefore="3" missingAfter="2">
+        <route edges="244967942#0 244967942#1"/>
+        <busStop id="3464799079" name="Сайран"/>
+        <busStop id="2522351050" name="Алатау"/>
+        <busStop id="2522351055" name="Мұхтар Әуезов атындағы театры"/>
+        <busStop id="2522351052" name="Байқоңыр"/>
+        <busStop id="2522351049" name="Абай"/>
+        <busStop id="2522351051" name="Алмалы"/>
+    </ptLine>
+</ptLines>

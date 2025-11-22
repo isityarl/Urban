@@ -1,0 +1,23 @@
+Warning: At actuated tlLogic 'cluster_10121802218_13301016293_13301016294_13301016295_#1more', linkIndex 12,13,14,15,16 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_10292892059_11518354659_11518354661_11867928792_#2more', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_10292892059_11518354659_11518354661_11867928792_#2more', linkIndex 2,3,4,5,19,20,21 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_10601731286_10601731298_10601739207_10601739208_#1more', linkIndex 9,10,19,20,21 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_10737049018_11163535002_12956456306_2232528086_#1more', linkIndex 2,3,4,5 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_10968166641_5336823307_5340632561_9721566054_#1more', linkIndex 0,1,2,3 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_11225391169_11225391171_11225391172_11225391173_#4more', actuated phase 4 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_11434334044_13013716769_13096715204_2251284067_#9more', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic 'cluster_12463188437_12707444217_12707444218_12946244200_#3more', actuated phase 2 has no controlling detector.
+Warning: No connection between edge '702593086#14' and edge '-536817572' found.
+Warning: Vehicle '7_bus_45:0' has no valid route from edge '702593086#14' to stop edge '-536817572'.
+Warning: No connection between edge '702593086#14' and edge '-536817572' found.
+Warning: Vehicle '5_bus_128:0' has no valid route from edge '702593086#14' to stop edge '-536817572'.
+Warning: Teleporting vehicle '5_bus_128:0'; waited too long (wrong lane, disconnected), lane='702593086#14_0', time=59.00.
+Warning: Vehicle '5_bus_128:0' skips stop on lane '702593086#14_0' time=59.00.
+Warning: Vehicle '5_bus_128:0' ends teleporting on edge '-536817572', time=59.00.
+Warning: Teleporting vehicle '7_bus_45:0'; waited too long (blocked, disconnected), lane='702593086#14_0', time=68.00.
+Warning: Vehicle '7_bus_45:0' skips stop on lane '702593086#14_0' time=68.00.
+Warning: Vehicle '7_bus_45:0' ends teleporting on edge '-536817572', time=68.00.
+Warning: Vehicle '43_subway_1:1' skips stop on lane '244967942#0_0' time=1306.00.
+Warning: Vehicle '43_subway_1:1' skips stop on lane '244967942#0_0' time=1308.00.
+Warning: Vehicle '43_subway_1:1' skips stop on lane '244967942#0_0' time=1310.00.
+Warning: 34 total messages of type: At actuated tlLogic '%', linkIndex % has no controlling detector.

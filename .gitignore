@@ -1,4 +1,12 @@
 /venv
 /anyl_files
-*.log
 /rl_test1
+__pycache__
+*.log
+*.txt
+*.dump
+/baseline
+
+!*.sumocfg
+!*.net.xml
+!*.rou.xml

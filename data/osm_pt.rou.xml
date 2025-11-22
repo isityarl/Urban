@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-11-22 00:21:03.138327 by osmWebWizard.py v1_24_0+0000-b72eb3fabc8
+<configuration>
+    <net-file value="/home/yarl/Desktop/sumo/tools/2025-11-22-00-20-46/osm.net.xml.gz"/>
+    <ptlines-file value="/home/yarl/Desktop/sumo/tools/2025-11-22-00-20-46/osm_ptlines.xml"/>
+    <ptstops-file value="/home/yarl/Desktop/sumo/tools/2025-11-22-00-20-46/osm_stops.add.xml"/>
+    <output-file value="/home/yarl/Desktop/sumo/tools/2025-11-22-00-20-46/osm_pt.rou.xml"/>
+    <stopinfos-file value="/home/yarl/Desktop/sumo/tools/2025-11-22-00-20-46/stopinfos.xml"/>
+    <routes-file value="/home/yarl/Desktop/sumo/tools/2025-11-22-00-20-46/vehroutes.xml"/>
+    <trips-file value="/home/yarl/Desktop/sumo/tools/2025-11-22-00-20-46/trips.trips.xml"/>
+    <min-stops value="0"/>
+    <extend-to-fringe value="True"/>
+    <random-begin value="True"/>
+    <seed value="42"/>
+    <ignore-errors value="True"/>
+    <vtype-prefix value="pt_"/>
+    <verbose value="True"/>
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vType id="pt_bus" vClass="bus"/>
+    <vType id="pt_tram" vClass="tram"/>
+    <vType id="pt_train" vClass="rail"/>
+    <vType id="pt_subway" vClass="subway"/>
+    <vType id="pt_light_rail" vClass="rail_urban"/>
+    <vType id="pt_monorail" vClass="rail_urban"/>
+    <vType id="pt_trolleybus" vClass="bus"/>
+    <vType id="pt_minibus" vClass="bus"/>
+    <vType id="pt_share_taxi" vClass="taxi"/>
+    <vType id="pt_aerialway" vClass="cable_car" length="2.5" width="2" personCapacity="4"/>
+    <vType id="pt_ferry" vClass="ship"/>
+    <route id="pt_bus_107:0" edges="-536817572 -536817571#0 911220277#1" >
+        <stop busStop="5199458458" duration="20" until="69.0"/> <!-- Достык -->
+        <stop busStop="13128216848" duration="20" until="156.0"/> <!-- Достык -->
+    </route>
+    <route id="pt_bus_112:0" edges="30811921#1 30811921#2 630928098 630928102#0 630928102#1 228464626#0 228464626#1 548024820#0 125615580 1124080588#0 1124080588#1 1124080588#2 694772681" >
+        <stop busStop="27518971" duration="20" until="74.0"/> <!-- ГКБ №12 -->
+        <stop busStop="13123356461" duration="20" until="161.0"/> <!-- ГКБ №12 -->
+    </route>
+    <route id="pt_bus_119:0" edges="1427251637#1 -1427251637#1 -690355194#7 -690355194#4 -690355194#3 690355194#3 690355194#4" >
+        <stop busStop="13120667506" duration="20" until="46.0"/> <!-- Байзакова -->
+        <stop busStop="13120667507" duration="20" until="146.0"/> <!-- Муканова -->
+    </route>
+    <route id="pt_bus_120:0" edges="257692802#0 257692802#1 257692802#2 257692802#3 257692802#4 257692802#6 257692802#7 257692802#8 257692802#9 257692802#10 257692802#11 257692802#12 214215443#1 257692795#0 257692795#1 257692795#2 257692795#3 257692795#4 257692795#5 257692795#6 257692795#7 257692795#8 257692795#9 257692769#0 257692769#1 257692772#1 257692772#2 257692772#3 257692772#4 257692772#5 257692772#6 925188161#1 257692778#1 257692778#2 1103849645 1103849646#1 257692770#1 257692770#2 928099279#1 257692780#1 257692780#2 1151502640#1 1151502640#2 1235109780#1 257692765#1 257692765#2 257692765#3 257692765#4 257692765#5 257692765#6 258025939#1 258025939#2 384959688#0 384959688#1 48795301 1341390075#0 1341390075#1 1374191445#0 1374191445#2 1374191445#3 1374191445#3-AddedOffRampEdge 1374191445#4 1374191445#5 228767495#0 228767495#1 228767495#2 228767495#3 228767495#4 228767495#5 1390634521#0 228767496#1 228767496#2 229862353#1 258025938#1 257724951#1 257724951#2 229862353#1 258025938#1 1326103707#2 912369915 258025929#0 258025929#1 258025929#2 171895222#1 258025932#0 258025932#1" >
+        <stop busStop="2631725885" duration="20" until="35.0"/> <!-- None -->
+        <stop busStop="1201876226" duration="20" until="66.0"/> <!-- Гимназия №62 -->
+        <stop busStop="2631725880" duration="20" until="146.0"/> <!-- None -->
+        <stop busStop="2577857353" duration="20" until="383.0"/> <!-- Розыбакиева -->
+        <stop busStop="2631725847" duration="20" until="479.0"/> <!-- Гагарина -->
+        <stop busStop="2631725861" duration="20" until="551.0"/> <!-- Жарокова -->
+        <stop busStop="2476292136" duration="20" until="665.0"/> <!-- Байзакова -->
+        <stop busStop="1382576965" duration="20" until="749.0"/> <!-- None -->
+        <stop busStop="2575296395" duration="20" until="971.0"/> <!-- Наурызбай батыр көшесі -->
+        <stop busStop="1078775945" duration="20" until="1058.0"/> <!-- Наурызбай батыра -->
+        <stop busStop="2634540466" duration="20" until="1206.0"/> <!-- Национальная библиотека -->
+        <stop busStop="2481756375" duration="20" until="1342.0"/> <!-- Назарбаева -->
+        <stop busStop="2634540535" duration="20" until="1408.0"/> <!-- Дворец Республики -->
+    </route>
+    <route id="pt_bus_123:0" edges="30811921#1" >
+        <stop busStop="27518971" duration="20" until="74.0"/> <!-- ГКБ №12 -->
+    </route>
+    <route id="pt_bus_126:0" color="255,249,149" edges="1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 1427251618#1 1427251618#2 1427251618#3 1388681517#2 1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 -1427251602#0 1427251622#1 -1427251626 -1427251637#1 1427251637#1 -1427251637#1 -690355194#7 -690355194#4 -690355194#3 690355194#3 690355194#4" >
+        <stop busStop="12646933735" duration="20" until="182.0"/> <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="20" until="314.0"/> <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="20" until="528.0"/> <!-- Байзакова -->
+        <stop busStop="13120667507" duration="20" until="658.0"/> <!-- Муканова -->
+    </route>
+    <route id="pt_bus_128:0" edges="702593086#14 -536817572" >
+        <stop busStop="5199458458" duration="20" until="42.0"/> <!-- Достык -->
+        <stop busStop="5199458458" duration="20" until="73.0"/> <!-- Достык -->
+        <stop edge="702593086#14" speed="999" jump="51.88795721947231" index="fit"/>
+    </route>
+    <route id="pt_bus_141:0" edges="-536817572 -536817571#0 911220277#1" >
+        <stop busStop="5199458458" duration="20" until="71.0"/> <!-- Достык -->
+        <stop busStop="13128216848" duration="20" until="158.0"/> <!-- Достык -->
+    </route>
+    <route id="pt_bus_16:0" color="119,187,65" edges="1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 1427251618#1 1427251618#2 1427251618#3 1388681517#2 1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 -1427251602#0 1427251622#1 -1427251626 -1427251637#1 1427251637#1 -1427251637#1 -690355194#7 -690355194#4 -690355194#3 690355194#3 690355194#4" >
+        <stop busStop="12646933735" duration="20" until="45.0"/> <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="20" until="138.0"/> <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="20" until="351.0"/> <!-- Байзакова -->
+        <stop busStop="13120667507" duration="20" until="451.0"/> <!-- Муканова -->
+    </route>
+    <route id="pt_bus_18:0" edges="-208514988#7 -208514988#6 -208514988#5 -208514988#3 -208514988#2 -208514988#1 -208514988#0 -208515007#0" >
+        <stop busStop="-8973640745" duration="20" until="63.0"/> <!-- Школа РФМШ -->
+    </route>
+    <route id="pt_bus_201:0" edges="1427251637#1 -1427251637#1 -690355194#7 -690355194#4 -690355194#3 690355194#3 690355194#4" >
+        <stop busStop="13120667506" duration="20" until="75.0"/> <!-- Байзакова -->
+        <stop busStop="13120667507" duration="20" until="215.0"/> <!-- Муканова -->
+    </route>
+    <route id="pt_bus_206:0" edges="1427251637#1 -1427251637#1 -690355194#7 -690355194#4 -690355194#3 690355194#3 690355194#4" >
+        <stop busStop="13120667506" duration="20" until="86.0"/> <!-- Байзакова -->
+        <stop busStop="13120667507" duration="20" until="225.0"/> <!-- Муканова -->
+    </route>
+    <route id="pt_bus_29:0" edges="-536817572 -536817571#0 911220277#1" >
+        <stop busStop="5199458458" duration="20" until="70.0"/> <!-- Достык -->
+        <stop busStop="13128216848" duration="20" until="145.0"/> <!-- Достык -->
+    </route>
+    <route id="pt_bus_29Р:0" edges="-536817572 -536817571#0 911220277#1" >
+        <stop busStop="5199458458" duration="20" until="71.0"/> <!-- Достык -->
+        <stop busStop="13128216848" duration="20" until="144.0"/> <!-- Достык -->
+    </route>
+    <route id="pt_bus_37:0" color="119,187,65" edges="1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 1427251618#1 1427251618#2 1427251618#3 1388681517#2 1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 -1427251602#0 1427251622#1 -1427251626 -1427251637#1 1427251637#1 -1427251637#1 -690355194#7 -690355194#4 -690355194#3 690355194#3 690355194#4" >
+        <stop busStop="12646933735" duration="20" until="57.0"/> <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="20" until="163.0"/> <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="20" until="363.0"/> <!-- Байзакова -->
+        <stop busStop="13120667507" duration="20" until="498.0"/> <!-- Муканова -->
+    </route>
+    <route id="pt_bus_428:0" edges="1103848386#2" >
+        <stop busStop="1794599637" duration="20" until="43.0"/> <!-- проспект Абая -->
+    </route>
+    <route id="pt_bus_45:0" edges="702593086#14 -536817572" >
+        <stop busStop="5199458458" duration="20" until="97.0"/> <!-- Достык -->
+        <stop edge="702593086#14" speed="999" jump="51.88795721947231" index="fit"/>
+    </route>
+    <route id="pt_bus_48:0" edges="702593086#14 -702593086#14 -702593086#13 -702593086#12 -702593086#11 -702593086#10 -702593086#9 702593086#9 702593086#10 702593086#11 702593086#12" >
+        <stop busStop="2917279368" duration="20" until="38.0"/> <!-- улица Жолдасбекова -->
+        <stop busStop="12994546039" duration="20" until="113.0"/> <!-- Самал 1-й микрорайон -->
+    </route>
+    <route id="pt_bus_48:1" color="119,187,65" edges="1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 1427251618#1 1427251618#2 1427251618#3 1388681517#2 1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 -1427251602#0 1427251622#1 -1427251626 -1427251637#1 1427251637#1 -1427251637#1 -690355194#7 -690355194#4 -690355194#3 690355194#3 690355194#4" >
+        <stop busStop="12646933735" duration="20" until="83.0"/> <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="20" until="204.0"/> <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="20" until="432.0"/> <!-- Байзакова -->
+        <stop busStop="13120667507" duration="20" until="599.0"/> <!-- Муканова -->
+    </route>
+    <route id="pt_bus_58:0" edges="690355194#4" >
+        <stop busStop="13120667507" duration="20" until="37.0"/> <!-- Муканова -->
+    </route>
+    <route id="pt_bus_59:0" color="119,187,65" edges="1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 1427251618#1 1427251618#2 1427251618#3 1388681517#2 1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 -1427251602#0 1427251622#1 -1427251626 -1427251637#1 1427251637#1" >
+        <stop busStop="12646933735" duration="20" until="115.0"/> <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="20" until="242.0"/> <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="20" until="384.0"/> <!-- Байзакова -->
+    </route>
+    <route id="pt_bus_5:1" edges="911230567 911230140#0 911229690#1 911229690#2 911229690#3 1424920393#0 1424920393#1 691145130#1 691145130#2 691145130#3 691145130#4 691145130#5 911227326#0 911227003 911226159#0 911225815#1 911225815#2 533334595#0 207810531#1 911222968#0 911222968#1 911222968#2 911222968#3 911222968#4 911222968#5 911222968#6 911222968#7 911222968#8 385200736#1 911221184#0 911221184#3" >
+        <stop busStop="10279705077" duration="20" until="248.0"/> <!-- Кинотеатр «Арман» -->
+        <stop busStop="10279716959" duration="20" until="340.0"/> <!-- Мектеп оқушылары сарайы -->
+    </route>
+    <route id="pt_bus_5А:0" edges="-536817572 -536817571#0 911220277#1" >
+        <stop busStop="5199458458" duration="20" until="39.0"/> <!-- Достык -->
+        <stop busStop="13128216848" duration="20" until="108.0"/> <!-- Достык -->
+    </route>
+    <route id="pt_bus_5Б:0" edges="-536817572 -536817571#0 911220277#1" >
+        <stop busStop="5199458458" duration="20" until="67.0"/> <!-- Достык -->
+        <stop busStop="13128216848" duration="20" until="140.0"/> <!-- Достык -->
+    </route>
+    <route id="pt_bus_62:0" edges="30811921#1" >
+        <stop busStop="27518971" duration="20" until="40.0"/> <!-- ГКБ №12 -->
+    </route>
+    <route id="pt_bus_66:0" edges="30811921#1 30811921#2 630928098 630928102#0 630928102#1 228464626#0 228464626#1 548024820#0 125615580 1124080588#0 1124080588#1 1124080588#2 694772681" >
+        <stop busStop="27518971" duration="20" until="53.0"/> <!-- ГКБ №12 -->
+        <stop busStop="13123356461" duration="20" until="142.0"/> <!-- ГКБ №12 -->
+    </route>
+    <route id="pt_bus_95:0" edges="30811921#1" >
+        <stop busStop="27518971" duration="20" until="41.0"/> <!-- ГКБ №12 -->
+    </route>
+    <route id="pt_bus_95:1" edges="-536817572 -536817571#0 911220277#1" >
+        <stop busStop="5199458458" duration="20" until="72.0"/> <!-- Достык -->
+        <stop busStop="13128216848" duration="20" until="159.0"/> <!-- Достык -->
+    </route>
+    <route id="pt_bus_98:0" edges="30811921#1 30811921#2 630928098 630928102#0 630928102#1 228464626#0 228464626#1 548024820#0 125615580 1124080588#0 1124080588#1 1124080588#2 694772681" >
+        <stop busStop="27518971" duration="20" until="62.0"/> <!-- ГКБ №12 -->
+        <stop busStop="13123356461" duration="20" until="149.0"/> <!-- ГКБ №12 -->
+    </route>
+    <route id="pt_bus_99:0" color="119,187,65" edges="1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 1427251618#1 1427251618#2 1427251618#3 1388681517#2 1388681517#3 1388681520#1 1388681520#2 1427251601 1427251608#0 -1427251618#3 -1427251618#2 -1427251618#1 -1427251602#0 1427251622#1 -1427251626 -1427251637#1 1427251637#1 -1427251637#1 -690355194#7 -690355194#4 -690355194#3 690355194#3 690355194#4" >
+        <stop busStop="12646933735" duration="20" until="147.0"/> <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="20" until="277.0"/> <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="20" until="460.0"/> <!-- Байзакова -->
+        <stop busStop="13120667507" duration="20" until="625.0"/> <!-- Муканова -->
+    </route>
+    <route id="pt_bus_99:1" edges="-536817572 -536817571#0 911220277#1" >
+        <stop busStop="5199458458" duration="20" until="71.0"/> <!-- Достык -->
+        <stop busStop="13128216848" duration="20" until="158.0"/> <!-- Достык -->
+    </route>
+    <route id="pt_bus_Bus_121:0" edges="30811921#1" >
+        <stop busStop="27518971" duration="20" until="73.0"/> <!-- ГКБ №12 -->
+    </route>
+    <route id="pt_subway_1:0" color="red" edges="244967942#0 244967942#1" >
+        <stop busStop="2522351051" duration="20" until="44.0"/> <!-- Алмалы -->
+        <stop busStop="2522351049" duration="20" until="127.0"/> <!-- Абай -->
+        <stop busStop="2522351052" duration="20" until="228.0"/> <!-- Байқоңыр -->
+        <stop busStop="2522351055" duration="20" until="304.0"/> <!-- Мұхтар Әуезов атындағы театры -->
+        <stop busStop="2522351050" duration="20" until="405.0"/> <!-- Алатау -->
+        <stop busStop="3464799079" duration="20" until="509.0"/> <!-- Сайран -->
+    </route>
+    <route id="pt_subway_1:1" color="red" edges="244967942#1 -244967942#1 -244967942#0 244967942#0 244967942#1 -244967942#1 -244967942#0 244967942#0 244967942#1 -244967942#1 -244967942#0 244967942#0 244967942#1 -244967942#1 -244967942#0 244967942#0 244967942#1 -244967942#1 -244967942#0 244967942#0" >
+        <stop busStop="3464799079" duration="20" until="47.0"/> <!-- Сайран -->
+        <stop busStop="2522351050" duration="20" until="159.0"/> <!-- Алатау -->
+        <stop busStop="2522351051" duration="20" until="530.0"/> <!-- Алмалы -->
+    </route>
+    <route id="pt_trolleybus_11:0" edges="-1428240092 1428240092 23444306#0 23444306#1" >
+        <stop busStop="-11987100480" duration="20" until="31.0"/> <!-- улица Байтурсынова -->
+        <stop busStop="13130547108" duration="20" until="79.0"/> <!-- улица Байтурсынова -->
+    </route>
+    <route id="pt_trolleybus_19:0" color="119,187,65" edges="330579512#2" >
+        <stop busStop="4609465553" duration="20" until="35.0"/> <!-- КазДорНИИ -->
+    </route>
+    <route id="pt_trolleybus_19:1" color="150,211,95" edges="1240708075#0" >
+        <stop busStop="13282398944" duration="20" until="44.0"/> <!-- Кабанбай батыра -->
+    </route>
+    <route id="pt_trolleybus_5:0" color="150,211,95" edges="912358839#1 -912358839#1 -912359483#1 -912359483#0 -912363097#2 -912363097#1 912363097#1 912363097#2 912359483#0 912359483#1 -912359483#1 -912359483#0 -912363097#2 -912363097#1 -1123881600#1 -1123881600#0 -912368454#2 -912368454#1 -912368455#2 -912368455#1 912368455#1 912368455#2" >
+        <stop busStop="12548312415" duration="20" until="50.0"/> <!-- Магазин Детский мир -->
+        <stop busStop="12548312416" duration="20" until="199.0"/> <!-- Улица Кабанбай батыра -->
+        <stop busStop="12548312417" duration="20" until="424.0"/> <!-- None -->
+    </route>
+    <route id="pt_trolleybus_6:0" edges="30811921#1 30811921#2 630928098 630928102#0 630928102#1 228464626#0 228464626#1 548024820#0 125615580 1124080588#0 1124080588#1 1124080588#2 694772681" >
+        <stop busStop="27518971" duration="20" until="71.0"/> <!-- ГКБ №12 -->
+        <stop busStop="13123356461" duration="20" until="159.0"/> <!-- ГКБ №12 -->
+    </route>
+    <route id="pt_trolleybus_7:0" edges="-1428240092 1428240092 23444306#0 23444306#1" >
+        <stop busStop="-11987100480" duration="20" until="31.0"/> <!-- улица Байтурсынова -->
+        <stop busStop="13130547108" duration="20" until="86.0"/> <!-- улица Байтурсынова -->
+    </route>
+    <route id="pt_trolleybus_9:0" edges="-1428240092 1428240092 23444306#0 23444306#1" >
+        <stop busStop="-11987100480" duration="20" until="31.0"/> <!-- улица Байтурсынова -->
+        <stop busStop="13130547108" duration="20" until="91.0"/> <!-- улица Байтурсынова -->
+    </route>
+    <route id="pt_trolleybus_9:1" color="119,187,65" edges="208493047#1 208493047#2 208493047#3 208493047#4 1185785532#1 1185785532#3 1185785532#4 1185785532#6 -1185785532#6 1185785532#6 257724840#1 257724840#2 257724840#3 257724840#4 257724840#5 257724840#6 1185785531#1 912363096#1 912363096#2 912363096#3 912363096#4 -912363096#5 -912363096#3 -912363096#2 912363096#2 912363096#3 912363096#4 912363096#7 912363096#9 911115666#1 911115666#3 911115666#6 -911115666#6 911115666#6 920731516#1 920731516#2 920731516#3 -920731516#3 -920731516#2 -920731516#1 920731516#1 920731516#2 920731516#3 920731516#4 920731516#5 920731516#6 1240708075#0" >
+        <stop busStop="13282388881" duration="20" until="36.0"/> <!-- Гимназия №36 -->
+        <stop busStop="11225421950" duration="20" until="96.0"/> <!-- Сейфуллина -->
+        <stop busStop="13282388899" duration="20" until="128.0"/> <!-- Сейфуллина -->
+        <stop busStop="13282388900" duration="20" until="180.0"/> <!-- Наурызбай батыра -->
+        <stop busStop="13282398901" duration="20" until="276.0"/> <!-- Наурызбай батыра -->
+        <stop busStop="13282398911" duration="20" until="421.0"/> <!-- None -->
+        <stop busStop="11015644387" duration="20" until="455.0"/> <!-- проспект Абылай хана -->
+        <stop busStop="11015644367" duration="20" until="550.0"/> <!-- проспект Абылай хана -->
+        <stop busStop="13282398917" duration="20" until="630.0"/> <!-- Назарбаева -->
+        <stop busStop="13282398918" duration="20" until="661.0"/> <!-- Назарбаева -->
+        <stop busStop="13282398919" duration="20" until="740.0"/> <!-- Назарбаева -->
+        <stop busStop="13282398920" duration="20" until="771.0"/> <!-- Назарбаева -->
+        <stop busStop="13282398936" duration="20" until="822.0"/> <!-- Кунаева -->
+        <stop busStop="13282398937" duration="20" until="896.0"/> <!-- Кунаева -->
+        <stop busStop="13282398938" duration="20" until="960.0"/> <!-- Кунаева -->
+        <stop busStop="12240659214" duration="20" until="1051.0"/> <!-- Кунаева -->
+    </route>
+    <flow id="pt_trolleybus_19:0" type="pt_trolleybus" route="pt_trolleybus_19:0" begin="3.0" end="3603.0" period="600" line="19:0" >
+        <param key="name" value="Троллейбус 19"/>
+        <param key="completeness" value="0.03"/>
+    </flow>
+    <flow id="pt_bus_48:1" type="pt_bus" route="pt_bus_48:1" begin="131.0" end="3731.0" period="600" line="48:1" >
+        <param key="name" value="Bus 48"/>
+        <param key="completeness" value="0.40"/>
+    </flow>
+    <flow id="pt_bus_59:0" type="pt_bus" route="pt_bus_59:0" begin="136.0" end="3736.0" period="600" line="59:0" >
+        <param key="name" value="Bus 59"/>
+        <param key="completeness" value="0.43"/>
+    </flow>
+    <flow id="pt_bus_99:0" type="pt_bus" route="pt_bus_99:0" begin="142.0" end="3742.0" period="600" line="99:0" >
+        <param key="name" value="Bus 99"/>
+        <param key="completeness" value="0.40"/>
+    </flow>
+    <flow id="pt_bus_126:0" type="pt_bus" route="pt_bus_126:0" begin="147.0" end="3747.0" period="600" line="126:0" >
+        <param key="name" value="Bus 126"/>
+        <param key="completeness" value="0.40"/>
+    </flow>
+    <flow id="pt_bus_119:0" type="pt_bus" route="pt_bus_119:0" begin="165.0" end="3765.0" period="600" line="119:0" >
+        <param key="name" value="Bus 119"/>
+        <param key="completeness" value="0.33"/>
+    </flow>
+    <flow id="pt_bus_201:0" type="pt_bus" route="pt_bus_201:0" begin="173.0" end="3773.0" period="600" line="201:0" >
+        <param key="name" value="Bus 201"/>
+        <param key="completeness" value="0.33"/>
+    </flow>
+    <flow id="pt_bus_206:0" type="pt_bus" route="pt_bus_206:0" begin="201.0" end="3801.0" period="600" line="206:0" >
+        <param key="name" value="Bus 206"/>
+        <param key="completeness" value="0.33"/>
+    </flow>
+    <flow id="pt_bus_58:0" type="pt_bus" route="pt_bus_58:0" begin="204.0" end="3804.0" period="600" line="58:0" >
+        <param key="name" value="Bus 58"/>
+        <param key="completeness" value="0.33"/>
+    </flow>
+    <flow id="pt_bus_62:0" type="pt_bus" route="pt_bus_62:0" begin="227.0" end="3827.0" period="600" line="62:0" >
+        <param key="name" value="Bus 62"/>
+        <param key="completeness" value="0.50"/>
+    </flow>
+    <flow id="pt_bus_66:0" type="pt_bus" route="pt_bus_66:0" begin="253.0" end="3853.0" period="600" line="66:0" >
+        <param key="name" value="Bus 66"/>
+        <param key="completeness" value="0.50"/>
+    </flow>
+    <flow id="pt_trolleybus_19:1" type="pt_trolleybus" route="pt_trolleybus_19:1" begin="15.0" end="3615.0" period="600" line="19:1" >
+        <param key="name" value="Троллейбус 19"/>
+        <param key="completeness" value="0.33"/>
+    </flow>
+    <flow id="pt_bus_95:0" type="pt_bus" route="pt_bus_95:0" begin="303.0" end="3903.0" period="600" line="95:0" >
+        <param key="name" value="Bus 95"/>
+        <param key="completeness" value="0.50"/>
+    </flow>
+    <flow id="pt_bus_98:0" type="pt_bus" route="pt_bus_98:0" begin="321.0" end="3921.0" period="600" line="98:0" >
+        <param key="name" value="Bus 98"/>
+        <param key="completeness" value="0.50"/>
+    </flow>
+    <flow id="pt_bus_112:0" type="pt_bus" route="pt_bus_112:0" begin="347.0" end="3947.0" period="600" line="112:0" >
+        <param key="name" value="Bus 112"/>
+        <param key="completeness" value="0.50"/>
+    </flow>
+    <flow id="pt_bus_Bus_121:0" type="pt_bus" route="pt_bus_Bus_121:0" begin="387.0" end="3987.0" period="600" line="Bus_121:0" >
+        <param key="name" value="Bus 121"/>
+        <param key="completeness" value="0.50"/>
+    </flow>
+    <flow id="pt_bus_123:0" type="pt_bus" route="pt_bus_123:0" begin="424.0" end="4024.0" period="600" line="123:0" >
+        <param key="name" value="Bus 123"/>
+        <param key="completeness" value="0.50"/>
+    </flow>
+    <flow id="pt_trolleybus_6:0" type="pt_trolleybus" route="pt_trolleybus_6:0" begin="464.0" end="4064.0" period="600" line="6:0" >
+        <param key="completeness" value="0.50"/>
+    </flow>
+    <flow id="pt_bus_5А:0" type="pt_bus" route="pt_bus_5А:0" begin="362.0" end="3962.0" period="600" line="5А:0" >
+        <param key="name" value="Bus 5А"/>
+        <param key="completeness" value="0.18"/>
+    </flow>
+    <flow id="pt_bus_5Б:0" type="pt_bus" route="pt_bus_5Б:0" begin="371.0" end="3971.0" period="600" line="5Б:0" >
+        <param key="name" value="Bus 5Б"/>
+        <param key="completeness" value="0.18"/>
+    </flow>
+    <flow id="pt_bus_29:0" type="pt_bus" route="pt_bus_29:0" begin="406.0" end="4006.0" period="600" line="29:0" >
+        <param key="name" value="Bus 29"/>
+        <param key="completeness" value="0.25"/>
+    </flow>
+    <flow id="pt_bus_29Р:0" type="pt_bus" route="pt_bus_29Р:0" begin="443.0" end="4043.0" period="600" line="29Р:0" >
+        <param key="name" value="Bus 29Р"/>
+        <param key="completeness" value="0.25"/>
+    </flow>
+    <flow id="pt_bus_18:0" type="pt_bus" route="pt_bus_18:0" begin="15.0" end="3615.0" period="600" line="18:0" >
+        <param key="completeness" value="0.02"/>
+    </flow>
+    <flow id="pt_bus_95:1" type="pt_bus" route="pt_bus_95:1" begin="481.0" end="4081.0" period="600" line="95:1" >
+        <param key="name" value="Bus 95"/>
+        <param key="completeness" value="0.25"/>
+    </flow>
+    <flow id="pt_bus_99:1" type="pt_bus" route="pt_bus_99:1" begin="519.0" end="4119.0" period="600" line="99:1" >
+        <param key="name" value="Bus 99"/>
+        <param key="completeness" value="0.25"/>
+    </flow>
+    <flow id="pt_bus_107:0" type="pt_bus" route="pt_bus_107:0" begin="559.0" end="4159.0" period="600" line="107:0" >
+        <param key="name" value="Bus 107"/>
+        <param key="completeness" value="0.25"/>
+    </flow>
+    <flow id="pt_bus_141:0" type="pt_bus" route="pt_bus_141:0" begin="595.0" end="4195.0" period="600" line="141:0" >
+        <param key="name" value="Bus 141"/>
+        <param key="completeness" value="0.25"/>
+    </flow>
+    <flow id="pt_trolleybus_7:0" type="pt_trolleybus" route="pt_trolleybus_7:0" begin="441.0" end="4041.0" period="600" line="7:0" >
+        <param key="completeness" value="0.67"/>
+    </flow>
+    <flow id="pt_trolleybus_9:0" type="pt_trolleybus" route="pt_trolleybus_9:0" begin="483.0" end="4083.0" period="600" line="9:0" >
+        <param key="completeness" value="0.67"/>
+    </flow>
+    <flow id="pt_trolleybus_11:0" type="pt_trolleybus" route="pt_trolleybus_11:0" begin="532.0" end="4132.0" period="600" line="11:0" >
+        <param key="completeness" value="0.67"/>
+    </flow>
+    <flow id="pt_bus_5:1" type="pt_bus" route="pt_bus_5:1" begin="485.0" end="4085.0" period="600" line="5:1" >
+        <param key="name" value="Автобус 5"/>
+        <param key="completeness" value="0.08"/>
+    </flow>
+    <flow id="pt_trolleybus_9:1" type="pt_trolleybus" route="pt_trolleybus_9:1" begin="497.0" end="4097.0" period="600" line="9:1" >
+        <param key="name" value="Троллейбус 9"/>
+        <param key="completeness" value="0.94"/>
+    </flow>
+    <flow id="pt_trolleybus_5:0" type="pt_trolleybus" route="pt_trolleybus_5:0" begin="17.0" end="3617.0" period="600" line="5:0" >
+        <param key="name" value="Троллейбус №5"/>
+        <param key="completeness" value="0.23"/>
+    </flow>
+    <flow id="pt_bus_120:0" type="pt_bus" route="pt_bus_120:0" begin="517.0" end="4117.0" period="600" line="120:0" >
+        <param key="completeness" value="0.37"/>
+    </flow>
+    <flow id="pt_subway_1:0" type="pt_subway" route="pt_subway_1:0" begin="535.0" end="4135.0" period="600" line="1:0" >
+        <param key="name" value="Бірінші бағыт: Райымбек батыра → Бауыржан Момышұлы"/>
+        <param key="completeness" value="0.55"/>
+    </flow>
+    <flow id="pt_bus_428:0" type="pt_bus" route="pt_bus_428:0" begin="574.0" end="4174.0" period="600" line="428:0" >
+        <param key="name" value="428"/>
+        <param key="completeness" value="0.03"/>
+    </flow>
+    <flow id="pt_subway_1:1" type="pt_subway" route="pt_subway_1:1" begin="1081.0" end="4681.0" period="600" line="1:1" >
+        <param key="name" value="Бірінші бағыт: Бауыржан Момышұлы → Райымбек батыра"/>
+        <param key="completeness" value="0.55"/>
+    </flow>
+    <flow id="pt_bus_128:0" type="pt_bus" route="pt_bus_128:0" begin="52.0" end="3652.0" period="600" line="128:0" >
+        <param key="name" value="Автобус 128"/>
+        <param key="completeness" value="0.60"/>
+    </flow>
+    <flow id="pt_bus_48:0" type="pt_bus" route="pt_bus_48:0" begin="59.0" end="3659.0" period="600" line="48:0" >
+        <param key="name" value="Автобус 48"/>
+        <param key="completeness" value="0.50"/>
+    </flow>
+    <flow id="pt_bus_45:0" type="pt_bus" route="pt_bus_45:0" begin="67.0" end="3667.0" period="600" line="45:0" >
+        <param key="name" value="Автобус 45"/>
+        <param key="completeness" value="0.33"/>
+    </flow>
+    <flow id="pt_bus_16:0" type="pt_bus" route="pt_bus_16:0" begin="93.0" end="3693.0" period="600" line="16:0" >
+        <param key="name" value="Bus 16"/>
+        <param key="completeness" value="0.40"/>
+    </flow>
+    <flow id="pt_bus_37:0" type="pt_bus" route="pt_bus_37:0" begin="119.0" end="3719.0" period="600" line="37:0" >
+        <param key="name" value="Bus 37"/>
+        <param key="completeness" value="0.50"/>
+    </flow>
+</routes>

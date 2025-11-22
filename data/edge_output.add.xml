@@ -1,0 +1,9 @@
+<additional>
+    <edgeData id="edgedata_output"
+        file="/home/yarl/Desktop/git/Urban/baseline/edgeData.xml"
+        freq="60"
+        begin="0"
+        end="3600"
+        includeEmpty="true"
+        attributes="entered,occupancy,speed,waitingTime"/>
+</additional>

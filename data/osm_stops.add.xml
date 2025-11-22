@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-11-22 00:20:57 by Eclipse SUMO netconvert Version 1.24.0
+<netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <type-files value="${SUMO_HOME}/data/typemap/osmNetconvert.typ.xml,${SUMO_HOME}/data/typemap/osmNetconvertAerialway.typ.xml"/>
+        <osm-files value="osm_bbox.osm.xml.gz"/>
+    </input>
+
+    <output>
+        <output-file value="osm.net.xml.gz"/>
+        <output.street-names value="true"/>
+        <output.original-names value="true"/>
+        <ptstop-output value="osm_stops.add.xml"/>
+        <ptline-output value="osm_ptlines.xml"/>
+        <ptline-clean-up value="true"/>
+    </output>
+
+    <projection>
+        <proj.utm value="true"/>
+    </projection>
+
+    <processing>
+        <geometry.remove value="true"/>
+        <roundabouts.guess value="true"/>
+    </processing>
+
+    <tls_building>
+        <tls.discard-simple value="true"/>
+        <tls.join value="true"/>
+        <tls.guess-signals value="true"/>
+        <tls.default-type value="actuated"/>
+    </tls_building>
+
+    <ramp_guessing>
+        <ramps.guess value="true"/>
+    </ramp_guessing>
+
+    <junctions>
+        <junctions.join value="true"/>
+        <junctions.corner-detail value="5"/>
+    </junctions>
+
+    <railway>
+        <railway.topology.repair value="true"/>
+    </railway>
+
+</netconvertConfiguration>
+-->
+
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    <busStop id="-11987100480" name="улица Байтурсынова" lane="-1428240092_0" startPos="0.00" endPos="6.09" friendlyPos="true" lines="9 11"/>
+    <busStop id="-8973640745" name="Школа РФМШ" lane="-208514988#5_0" startPos="9.09" endPos="24.09" friendlyPos="true" lines="18"/>
+    <busStop id="10279705077" name="Кинотеатр «Арман»" lane="911222968#0_0" startPos="15.26" endPos="30.26" friendlyPos="true" lines="5"/>
+    <busStop id="10279716959" name="Мектеп оқушылары сарайы" lane="911221184#3_0" startPos="15.95" endPos="30.95" friendlyPos="true" lines="5"/>
+    <busStop id="1078775945" name="Наурызбай батыра" lane="229862353#1_0" startPos="13.23" endPos="28.23" friendlyPos="true" lines="120"/>
+    <busStop id="11015644367" name="проспект Абылай хана" lane="912363096#2_0" startPos="0.00" endPos="15.00" friendlyPos="true" lines="9"/>
+    <busStop id="11015644387" name="проспект Абылай хана" lane="912363096#2_0" startPos="8.36" endPos="23.36" friendlyPos="true" lines="9"/>
+    <busStop id="11225421950" name="Сейфуллина" lane="1185785532#3_0" startPos="10.58" endPos="25.58" friendlyPos="true" lines="9"/>
+    <busStop id="1201876226" name="Гимназия №62" lane="257692802#0_0" startPos="0.00" endPos="15.00" friendlyPos="true" lines="120"/>
+    <busStop id="12240659214" name="Кунаева" lane="920731516#2_0" startPos="17.55" endPos="32.55" friendlyPos="true" lines="9"/>
+    <busStop id="12548312415" name="Магазин Детский мир" lane="912358839#1_0" startPos="125.60" endPos="140.60" friendlyPos="true"/>
+    <busStop id="12548312416" name="Улица Кабанбай батыра" lane="912363097#1_0" startPos="140.68" endPos="155.68" friendlyPos="true"/>
+    <busStop id="12548312417" lane="912368455#2_0" startPos="39.12" endPos="54.12" friendlyPos="true"/>
+    <busStop id="12646933735" name="улица Айтиева" lane="1388681517#3_0" startPos="68.49" endPos="83.49" friendlyPos="true"/>
+    <busStop id="12994546039" name="Самал 1-й микрорайон" lane="702593086#12_0" startPos="15.59" endPos="30.59" friendlyPos="true"/>
+    <busStop id="13120667454" name="Нурмакова" lane="1427251618#3_0" startPos="8.32" endPos="23.32" friendlyPos="true"/>
+    <busStop id="13120667506" name="Байзакова" lane="1427251637#1_0" startPos="71.22" endPos="86.22" friendlyPos="true"/>
+    <busStop id="13120667507" name="Муканова" lane="690355194#4_0" startPos="10.15" endPos="25.15" friendlyPos="true"/>
+    <busStop id="13123356461" name="ГКБ №12" lane="694772681_0" startPos="18.69" endPos="33.69" friendlyPos="true"/>
+    <busStop id="13128216848" name="Достык" lane="911220277#1_0" startPos="8.07" endPos="23.07" friendlyPos="true"/>
+    <busStop id="13130547108" name="улица Байтурсынова" lane="23444306#1_0" startPos="38.35" endPos="53.35" friendlyPos="true"/>
+    <busStop id="13282388881" name="Гимназия №36" lane="208493047#1_0" startPos="7.27" endPos="22.27" friendlyPos="true"/>
+    <busStop id="13282388899" name="Сейфуллина" lane="1185785532#3_0" startPos="11.51" endPos="26.51" friendlyPos="true" lines="9"/>
+    <busStop id="13282388900" name="Наурызбай батыра" lane="1185785532#6_0" startPos="61.66" endPos="76.66" friendlyPos="true" lines="9"/>
+    <busStop id="13282398901" name="Наурызбай батыра" lane="1185785532#6_0" startPos="61.36" endPos="76.36" friendlyPos="true" lines="9"/>
+    <busStop id="13282398911" lane="912363096#2_0" startPos="5.27" endPos="20.27" friendlyPos="true" lines="9"/>
+    <busStop id="13282398917" name="Назарбаева" lane="912363096#9_0" startPos="18.19" endPos="33.19" friendlyPos="true" lines="9"/>
+    <busStop id="13282398918" name="Назарбаева" lane="912363096#9_0" startPos="18.23" endPos="33.23" friendlyPos="true" lines="9"/>
+    <busStop id="13282398919" name="Назарбаева" lane="911115666#1_0" startPos="22.76" endPos="37.76" friendlyPos="true" lines="9"/>
+    <busStop id="13282398920" name="Назарбаева" lane="911115666#1_0" startPos="22.78" endPos="37.78" friendlyPos="true" lines="9"/>
+    <busStop id="13282398936" name="Кунаева" lane="911115666#6_0" startPos="29.36" endPos="44.36" friendlyPos="true" lines="9"/>
+    <busStop id="13282398937" name="Кунаева" lane="911115666#6_0" startPos="29.17" endPos="44.17" friendlyPos="true" lines="9"/>
+    <busStop id="13282398938" name="Кунаева" lane="920731516#2_0" startPos="17.94" endPos="32.94" friendlyPos="true" lines="9"/>
+    <busStop id="13282398944" name="Кабанбай батыра" lane="1240708075#0_0" startPos="46.10" endPos="61.10" friendlyPos="true"/>
+    <busStop id="1382576965" lane="1374191445#0_0" startPos="96.37" endPos="111.37" friendlyPos="true" lines="120"/>
+    <busStop id="1794599637" name="проспект Абая" lane="1103848386#2_0" startPos="43.87" endPos="58.87" friendlyPos="true"/>
+    <busStop id="2476292136" name="Байзакова" lane="257692765#6_0" startPos="10.30" endPos="25.30" friendlyPos="true"/>
+    <busStop id="2481756375" name="Назарбаева" lane="171895222#1_0" startPos="164.98" endPos="179.98" friendlyPos="true" lines="120"/>
+    <busStop id="2522351049" name="Абай" lane="244967942#0_0" startPos="1121.92" endPos="1321.92" friendlyPos="true" lines="1">
+        <access lane="-1307275873#3_0" pos="0.00" length="22.54" friendlyPos="1"/>
+        <access lane="-1307275876#0_0" pos="4.26" length="19.20" friendlyPos="1"/>
+        <access lane="1241712041_0" pos="0.00" length="19.25" friendlyPos="1"/>
+        <access lane="1307275876#0_0" pos="0.00" length="22.19" friendlyPos="1"/>
+        <access lane="23989757#2_0" pos="250.59" length="15.58" friendlyPos="1"/>
+    </busStop>
+    <busStop id="2522351050" name="Алатау" lane="244967942#0_0" startPos="5336.93" endPos="5536.93" friendlyPos="true" lines="1">
+        <access lane="1357115605_0" pos="23.71" length="34.15" friendlyPos="1"/>
+        <access lane="1357115606_0" pos="23.74" length="20.98" friendlyPos="1"/>
+        <access lane="1357115608#0_0" pos="3.60" length="46.54" friendlyPos="1"/>
+        <access lane="1357115608#1_0" pos="8.39" length="39.40" friendlyPos="1"/>
+        <access lane="137946507#1_0" pos="34.84" length="46.23" friendlyPos="1"/>
+    </busStop>
+    <busStop id="2522351051" name="Алмалы" lane="244967942#0_0" startPos="0.00" endPos="200.00" friendlyPos="true" lines="1">
+        <access lane="-911116546_0" pos="36.75" length="5.45" friendlyPos="1"/>
+        <access lane="1067905978#1_0" pos="39.55" length="22.71" friendlyPos="1"/>
+        <access lane="1068946384#2_0" pos="51.13" length="26.74" friendlyPos="1"/>
+        <access lane="1068946385#2_0" pos="49.11" length="5.83" friendlyPos="1"/>
+        <access lane="911116546_0" pos="21.80" length="10.25" friendlyPos="1"/>
+    </busStop>
+    <busStop id="2522351052" name="Байқоңыр" lane="244967942#0_0" startPos="2774.31" endPos="2974.31" friendlyPos="true" lines="1">
+        <access lane="-1358113229#1_0" pos="99.53" length="13.09" friendlyPos="1"/>
+        <access lane="-544489152#0_0" pos="1.06" length="45.67" friendlyPos="1"/>
+        <access lane="1358113229#1_0" pos="80.10" length="16.09" friendlyPos="1"/>
+        <access lane="228767495#3_0" pos="11.87" length="34.81" friendlyPos="1"/>
+        <access lane="385200734#10_0" pos="80.13" length="2.06" friendlyPos="1"/>
+    </busStop>
+    <busStop id="2522351055" name="Мұхтар Әуезов атындағы театры" lane="244967942#0_0" startPos="3739.10" endPos="3939.10" friendlyPos="true" lines="1">
+        <access lane="1286977824_0" pos="9.67" length="17.34" friendlyPos="1"/>
+        <access lane="1385699522#1_0" pos="29.33" length="16.28" friendlyPos="1"/>
+        <access lane="163367288#1_0" pos="8.91" length="18.51" friendlyPos="1"/>
+        <access lane="384959688#0_0" pos="28.98" length="3.89" friendlyPos="1"/>
+        <access lane="442804078#0_0" pos="0.00" length="24.29" friendlyPos="1"/>
+    </busStop>
+    <busStop id="2575296395" name="Наурызбай батыр көшесі" lane="229862353#1_0" startPos="14.72" endPos="29.72" friendlyPos="true" lines="120"/>
+    <busStop id="2577857353" name="Розыбакиева" lane="925188161#1_0" startPos="20.75" endPos="35.75" friendlyPos="true"/>
+    <busStop id="2631725847" name="Гагарина" lane="1103849646#1_0" startPos="47.77" endPos="62.77" friendlyPos="true"/>
+    <busStop id="2631725861" name="Жарокова" lane="928099279#1_0" startPos="13.56" endPos="28.56" friendlyPos="true"/>
+    <busStop id="2631725880" lane="214215443#1_0" startPos="39.42" endPos="54.42" friendlyPos="true" lines="120"/>
+    <busStop id="2631725885" lane="257692802#0_0" startPos="0.00" endPos="15.00" friendlyPos="true" lines="120"/>
+    <busStop id="2634540466" name="Национальная библиотека" lane="912369915_0" startPos="101.85" endPos="116.85" friendlyPos="true" lines="120"/>
+    <busStop id="2634540535" name="Дворец Республики" lane="258025932#1_0" startPos="189.42" endPos="204.42" friendlyPos="true" lines="120"/>
+    <busStop id="27518971" name="ГКБ №12" lane="30811921#1_0" startPos="21.16" endPos="36.16" friendlyPos="true"/>
+    <busStop id="2917279368" name="улица Жолдасбекова" lane="702593086#14_0" startPos="9.35" endPos="24.35" friendlyPos="true"/>
+    <busStop id="3464799079" name="Сайран" lane="244967942#1_0" startPos="75.99" endPos="275.99" friendlyPos="true" lines="1">
+        <access lane="1120640152#1_0" pos="28.75" length="29.99" friendlyPos="1"/>
+        <access lane="1315947365#1_0" pos="53.95" length="5.95" friendlyPos="1"/>
+        <access lane="1315947365#2_0" pos="59.67" length="20.17" friendlyPos="1"/>
+        <access lane="237878526#5_0" pos="28.77" length="18.94" friendlyPos="1"/>
+        <access lane="353278597#1_0" pos="140.69" length="16.71" friendlyPos="1"/>
+    </busStop>
+    <busStop id="4609465553" name="КазДорНИИ" lane="330579512#2_0" startPos="4.09" endPos="19.09" friendlyPos="true"/>
+    <busStop id="5199458458" name="Достык" lane="-536817572_0" startPos="14.50" endPos="29.50" friendlyPos="true"/>
+</additional>
