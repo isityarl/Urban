@@ -3,7 +3,9 @@ import sys
 import numpy as np
 import traci
 import traci.constants as tc
+import xml.etree.ElementTree as ET
 import sumolib
+import gzip
 
 class SumoEnv:
     def __init__(self, cfg_path, net_path, gui=False, step_length=1):
@@ -14,7 +16,8 @@ class SumoEnv:
         self.max_steps = 3000
 
         self.controlled_tls = self.find_all_intersections()
-        self.phases = {tls: self.load_tls_phases(tls) for tls in self.controlled_tls}
+        self.phases = self.load_tls_phases(net_path)
+
 
         self.current = 0
 
@@ -23,18 +26,28 @@ class SumoEnv:
         tls = [n.getID() for n in net.getTrafficLights()]
         return tls
 
-    def load_tls_phases(self, tls): # Список фаз для опрелеленного светофора
-        net = sumolib.net.readNet(self.net_path)
-        tl = net.getTrafficLight(tls)
-        phases = [p.state for p in tl.getPrograms()[0].phases]
-        return phases
+    
+    def load_tls_phases(self, add_path):
+        with gzip.open("data/osm.net.xml.gz", "rt", encoding="utf-8") as f:
+            tree = ET.parse(f)  
+        root = tree.getroot()
+
+        tls_phases = {}
+
+        for tl in root.findall("tlLogic"):
+            tls_id = tl.get("id")
+            phases = [p.get("state") for p in tl.findall("phase")]
+            tls_phases[tls_id] = phases
+
+        return tls_phases
+        
     
     def reset(self): # Перезапуск среды + начальное состояние
         if traci.isLoaded():
             traci.close()
 
         binary = "sumo-gui" if self.gui else "sumo"
-        traci.start([binary, "-c", self.cfg_path, "--step-length", str(self.step_length)])
+        traci.start([binary, "-c", self.cfg_path, "--step-length", str(self.step_length), "--no-step-log","--start"])
 
         self.current = 0
         return self.get_state()
