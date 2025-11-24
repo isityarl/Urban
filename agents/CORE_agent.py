@@ -31,16 +31,22 @@ class BaseAgent:
     def build_model(self):
         return DQN(self.state_size, self.action_size)
 
-    def select_action(self, state):
-        if random.random() < self.epsilon:
-            return random.randrange(self.action_size)
-        state = torch.FloatTensor(state).unsqueeze(0).to(self.device)
-        with torch.no_grad():
-            q_values = self.policy_net(state)
-        return torch.argmax(q_values).item()
+    def select_action(self, state, tls, phases):
+        action = {}
+        for tl in tls:
+            if random.random() < self.epsilon:
+                action[tl] = np.random.randint(len(phases[tl]))
+            else:
+                state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
+                with torch.no_grad():
+                    q_values = self.policy_net(state_tensor)
+                
+                action[tl] = torch.argmax(q_values[0][:len(phases[tl])]).item()
+        return action        
     
     def remember(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))
+
 
     def replay(self):
         if len(self.memory) < self.batch_size:
@@ -65,7 +71,6 @@ class BaseAgent:
         loss.backward()
         self.optimizer.step()
 
-        # decay epsilon
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
 

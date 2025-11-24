@@ -34,7 +34,7 @@ print("\nStep")
 
 tls_list = [tl for tl in env.controlled_tls if tl in env.phases]
 
-for i in range(200):
+for i in range(3000):
     actions = {tl: np.random.randint(len(env.phases[tl])) for tl in tls_list}
     state, reward, done, info = env.step(actions)
     
