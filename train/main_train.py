@@ -18,7 +18,7 @@ def train(gui, episodes):
     phases = env.phases
     action_size = len(phases[controlled_tls[0]])
 
-    agent = BaseAgent(state_size, action_size, config)
+    agent = BaseAgent(state_size, phases, config)
     rewards_per_episode = []
 
     steps_done = 0
@@ -33,8 +33,8 @@ def train(gui, episodes):
             action = agent.select_action(state, tls_list, env.phases)
             next_state, reward, done, _ = env.step(action)
 
-            for tls, act in action.items():
-                agent.remember(state, act, reward, next_state, done)
+            for tl, action in action.items():
+                agent.remember(tl, state, action, reward, next_state, done)
 
             agent.replay()
 
