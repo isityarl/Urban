@@ -21,19 +21,20 @@ def train(gui, episodes):
     agent = BaseAgent(state_size, phases, config)
     rewards_per_episode = []
 
-    steps_done = 0
     tls_list = [tl for tl in env.controlled_tls if tl in env.phases]
+    print('Cuda', torch.cuda.is_available())
 
     for episode in range(episodes):
         state = env.reset()
         episode_reward = 0
         done = False
+        steps_done = 0
+ 
+        while not done and steps_done < config['max_steps']:
+            actions = agent.select_action(state, tls_list, env.phases)
+            next_state, reward, done, _ = env.step(actions)
 
-        while not done:
-            action = agent.select_action(state, tls_list, env.phases)
-            next_state, reward, done, _ = env.step(action)
-
-            for tl, action in action.items():
+            for tl, action in actions.items():
                 agent.remember(tl, state, action, reward, next_state, done)
 
             agent.replay()
@@ -41,19 +42,22 @@ def train(gui, episodes):
             state = next_state
             episode_reward += reward
             steps_done += 1
+            if steps_done % 100 == 0:
+                print('Step', steps_done)
 
             if steps_done % config['target_update_freq'] == 0:
                  agent.update_target()
 
         rewards_per_episode.append(episode_reward)
-        print(f"Episode {episode+1}/{episodes} | Reward: {episode_reward:.2f} | Epsilon: {agent.epsilon:.3f}")
+        avg_eps = sum(agent.epsilon.values()) / len(agent.epsilon)
+        print(f"Episode {episode+1}/{episodes} | Reward: {episode_reward:.2f} | Avg Epsilon: {avg_eps:.3f}")
 
     env.close()
 
-    torch.save(agent.policy_net.state_dict(), "res/models/DQN/model1.pth")
+    torch.save({tl: net.state_dict() for tl, net in agent.policy_net.items()},"res/models/DQN/model1.pth")
     print('model saved')    
     
     pd.DataFrame(rewards_per_episode, columns=["reward"]).to_csv("res/logs/DQN/model1.csv", index=False)
     print('rewards saved')
 if __name__ == "__main__":
-    train(gui=True, episodes=1000)
+    train(gui=True, episodes=3)

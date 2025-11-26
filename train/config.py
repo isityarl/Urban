@@ -7,5 +7,5 @@ config = {
     'batch_size': 64,
     'memory_size': 10000,
     'target_update_freq': 1000,
-    'max_steps': 3000
+    'max_steps': 50
 }

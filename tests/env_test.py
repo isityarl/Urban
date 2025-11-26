@@ -7,7 +7,7 @@ import numpy as np
 env = SumoEnv(
     cfg_path="data/osm.sumocfg",
     net_path="data/osm.net.xml.gz",
-    gui=True
+    gui=False
 )
 
 tls = env.controlled_tls
@@ -31,6 +31,10 @@ print("STATE LEN =", len(state))
 print("STATE PREVIEW =", state[:30])
 
 print("\nStep")
+
+import torch
+print(torch.cuda.is_available())
+print(torch.cuda.device_count())
 
 tls_list = [tl for tl in env.controlled_tls if tl in env.phases]
 

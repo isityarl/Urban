@@ -47,7 +47,7 @@ class SumoEnv:
             traci.close()
 
         binary = "sumo-gui" if self.gui else "sumo"
-        traci.start([binary, "-c", self.cfg_path, "--step-length", str(self.step_length), "--no-step-log","--start"])
+        traci.start([binary, "-c", self.cfg_path, "--step-length", str(self.step_length), "--no-step-log","--start", "--no-warnings"])
 
         self.current = 0
         return self.get_state()

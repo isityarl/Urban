@@ -12,10 +12,10 @@
     </input>
 
     <output>
-        <tripinfo-output value="/home/yarl/Desktop/git/Urban/baseline/tripinfos.xml"/>
-        <stop-output value="/home/yarl/Desktop/git/Urban/baseline/stopinfos.xml"/>
-        <statistic-output value="/home/yarl/Desktop/git/Urban/baseline/stats.xml"/>
-        <vehroute-output value="/home/yarl/Desktop/git/Urban/baseline/vehroute.xml"/>
+        <tripinfo-output value="/home/yeaz/Desktop/Urban/baseline/tripinfos.xml"/>
+        <stop-output value="/home/yeaz/Desktop/Urban/baseline/stopinfos.xml"/>
+        <statistic-output value="/home/yeaz/Desktop/Urban/baseline/stats.xml"/>
+        <vehroute-output value="/home/yeaz/Desktop/Urban/baseline/vehroute.xml"/>
     </output>
 
     <processing>
@@ -29,8 +29,8 @@
     </routing>
 
     <report>
-        <verbose value="true"/>
-        <duration-log.statistics value="true"/>
+        <verbose value="false"/>
+        <duration-log.statistics value="false"/>
         <no-step-log value="true"/>
     </report>
 

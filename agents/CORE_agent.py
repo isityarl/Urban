@@ -58,7 +58,7 @@ class BaseAgent:
     def replay(self):
         for tl in self.policy_net.keys():
             if len(self.memory[tl]) < self.batch_size:
-                return
+                continue
 
             batch = random.sample(self.memory[tl], self.batch_size)
             states, actions, rewards, next_states, dones = zip(*batch)
@@ -79,8 +79,7 @@ class BaseAgent:
             loss.backward()
             self.optimizer[tl].step()
 
-            if self.epsilon[tl] > self.epsilon_min:
-                self.epsilon[tl] *= self.epsilon_decay
+            self.epsilon[tl] = max(self.epsilon_min, self.epsilon[tl] * self.epsilon_decay)
 
     def update_target(self):
         for tl in self.policy_net.keys():
