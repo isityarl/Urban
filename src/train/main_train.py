@@ -3,25 +3,21 @@ import torch
 import random
 import numpy as np
 from collections import deque
-from RL_env.env import SumoEnv
-from agents.CORE_agent import BaseAgent
-from train.config import config
+from src.RL_env.env import SumoEnv
+from src.agents.CORE_agent import BaseAgent
+from src.train.config import config
 import pandas as pd
 import os
 
 
 def train(gui, episodes):
-    env = SumoEnv(cfg_path='data/osm.sumocfg', net_path='data/osm.net.xml.gz', gui=gui, step_length=1)
-    temp_state = env.reset()
-    state_size = len(temp_state)
-    controlled_tls = env.controlled_tls
-    phases = env.phases
-    action_size = len(phases[controlled_tls[0]])
+    env = SumoEnv(cfg_path='src/data/osm.sumocfg', net_path='src/data/osm.net.xml.gz', gui=gui, step_length=1)
+    state_size = 4
 
-    agent = BaseAgent(state_size, phases, config)
+    agent = BaseAgent(state_size, env.main_phases, config)
     rewards_per_episode = []
 
-    tls_list = [tl for tl in env.controlled_tls if tl in env.phases]
+    tls_list = env.main_tls
     print('Cuda', torch.cuda.is_available())
 
     for episode in range(episodes):
@@ -31,33 +27,36 @@ def train(gui, episodes):
         steps_done = 0
  
         while not done and steps_done < config['max_steps']:
-            actions = agent.select_action(state, tls_list, env.phases)
-            next_state, reward, done, _ = env.step(actions)
+            actions = agent.select_action(state, tls_list, env.main_phases)
+            next_state, rewards, done, _ = env.step(actions)
 
             for tl, action in actions.items():
-                agent.remember(tl, state, action, reward, next_state, done)
+                s_tl = state[tl]
+                ns_tl = next_state[tl]
+                r_tl = rewards[tl]
+                agent.remember(tl, s_tl, action, r_tl, ns_tl, done)
+                episode_reward += r_tl
 
             agent.replay()
 
             state = next_state
-            episode_reward += reward
             steps_done += 1
+            agent.epsilon = max(agent.epsilon_min, agent.epsilon * agent.epsilon_decay)
             if steps_done % 100 == 0:
                 print('Step', steps_done)
 
             if steps_done % config['target_update_freq'] == 0:
                  agent.update_target()
 
+        print(f"Episode {episode+1}/{episodes} | Reward: {episode_reward:.2f} | Epsilon: {agent.epsilon:.3f}")
         rewards_per_episode.append(episode_reward)
-        avg_eps = sum(agent.epsilon.values()) / len(agent.epsilon)
-        print(f"Episode {episode+1}/{episodes} | Reward: {episode_reward:.2f} | Avg Epsilon: {avg_eps:.3f}")
 
     env.close()
 
-    torch.save({tl: net.state_dict() for tl, net in agent.policy_net.items()},"res/models/DQN/model1.pth")
+    torch.save({tl: net.state_dict() for tl, net in agent.policy_net.items()},"src/res/models/DQN/model1.pth")
     print('model saved')    
     
-    pd.DataFrame(rewards_per_episode, columns=["reward"]).to_csv("res/logs/DQN/model1.csv", index=False)
+    pd.DataFrame(rewards_per_episode, columns=["reward"]).to_csv("src/res/logs/DQN/model1.csv", index=False)
     print('rewards saved')
 if __name__ == "__main__":
-    train(gui=True, episodes=3)
+    train(gui=True, episodes=1)

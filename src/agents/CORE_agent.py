@@ -5,7 +5,7 @@ import random
 from collections import deque
 import numpy as np
 import pandas as pd
-from agents.DQN import DQN
+from src.agents.DQN import DQN
 
 class BaseAgent:
     def __init__(self, state_size, tls_phases, config):
@@ -28,23 +28,21 @@ class BaseAgent:
             self.target_net[tl].eval()
             self.optimizer[tl] = optim.AdamW(self.policy_net[tl].parameters(), lr=config['learning_rate'])
             self.memory[tl] = deque(maxlen=config['memory_size'])
-            self.epsilon[tl] = config['epsilon_start']
 
         self.gamma = config['gamma']
+        self.epsilon = config['epsilon_start']
         self.epsilon_min = config['epsilon_min']
         self.epsilon_decay = config['epsilon_decay']
         self.batch_size = config['batch_size']
 
-    def build_model(self):
-        return DQN(self.state_size, self.action_size)
-
     def select_action(self, state, tls, phases):
         action = {}
         for tl in tls:
-            if random.random() < self.epsilon[tl]:
+            if random.random() < self.epsilon:
                 action[tl] = np.random.randint(len(phases[tl]))
             else:
-                state_tensor = torch.FloatTensor(state).unsqueeze(0).to(self.device)
+                s_tl = state[tl]
+                state_tensor = torch.FloatTensor(s_tl).unsqueeze(0).to(self.device)
                 with torch.no_grad():
                     q_values = self.policy_net[tl](state_tensor)
                 
@@ -78,8 +76,6 @@ class BaseAgent:
             self.optimizer[tl].zero_grad()
             loss.backward()
             self.optimizer[tl].step()
-
-            self.epsilon[tl] = max(self.epsilon_min, self.epsilon[tl] * self.epsilon_decay)
 
     def update_target(self):
         for tl in self.policy_net.keys():
