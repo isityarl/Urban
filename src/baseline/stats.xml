@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2025-12-07 16:16:45 by Eclipse SUMO GUI Version 1.24.0
+<!-- generated on 2025-12-07 16:48:51 by Eclipse SUMO sumo Version 1.24.0
 <sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
-        <net-file value="/home/yarl/Desktop/git/Urban/data/osm.net.xml.gz"/>
-        <route-files value="/home/yarl/Desktop/git/Urban/data/osm_pt.rou.xml,/home/yarl/Desktop/git/Urban/data/osm.bus.trips.xml,/home/yarl/Desktop/git/Urban/data/osm.motorcycle.trips.xml,/home/yarl/Desktop/git/Urban/data/osm.passenger.trips.xml"/>
-        <additional-files value="/home/yarl/Desktop/git/Urban/data/osm.poly.xml.gz,/home/yarl/Desktop/git/Urban/data/osm_stops.add.xml,/home/yarl/Desktop/git/Urban/data/output.add.xml,/home/yarl/Desktop/git/Urban/data/edge_output.add.xml"/>
+        <net-file value="src/data/osm.net.xml.gz"/>
+        <route-files value="src/data/osm_pt.rou.xml,src/data/osm.bus.trips.xml,src/data/osm.motorcycle.trips.xml,src/data/osm.passenger.trips.xml"/>
+        <additional-files value="src/data/osm.poly.xml.gz,src/data/osm_stops.add.xml,src/data/output.add.xml,src/data/edge_output.add.xml"/>
     </input>
 
     <output>
-        <tripinfo-output value="/home/yarl/Desktop/git/Urban/data/../baseline/tripinfos.xml"/>
-        <vehroute-output value="/home/yarl/Desktop/git/Urban/data/../baseline/vehroute.xml"/>
-        <stop-output value="/home/yarl/Desktop/git/Urban/data/../baseline/stopinfos.xml"/>
-        <statistic-output value="/home/yarl/Desktop/git/Urban/data/../baseline/stats.xml"/>
+        <tripinfo-output value="src/data/../baseline/tripinfos.xml"/>
+        <vehroute-output value="src/data/../baseline/vehroute.xml"/>
+        <stop-output value="src/data/../baseline/stopinfos.xml"/>
+        <statistic-output value="src/data/../baseline/stats.xml"/>
     </output>
 
     <processing>
@@ -32,8 +32,26 @@
         <no-step-log value="true"/>
     </report>
 
+    <traci_server>
+        <remote-port value="45323"/>
+    </traci_server>
+
     <gui_only>
-        <gui-settings-file value="/home/yarl/Desktop/git/Urban/data/osm.view.xml"/>
+        <gui-settings-file value="src/data/osm.view.xml"/>
     </gui_only>
 
 </sumoConfiguration>
+-->
+
+<statistics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/statistic_file.xsd">
+    <performance clockBegin="1765108131.77" clockEnd="1765108131.85" clockDuration="0.08" traciDuration="0.00" realTimeFactor="0.00" vehicleUpdatesPerSecond="0.00" personUpdatesPerSecond="0.00" begin="0.00" end="0.00" duration="0.00"/>
+    <vehicles loaded="12" inserted="0" running="0" waiting="0"/>
+    <teleports total="0" jam="0" yield="0" wrongLane="0"/>
+    <safety collisions="0" emergencyStops="0" emergencyBraking="0"/>
+    <persons loaded="0" running="0" jammed="0"/>
+    <personTeleports total="0" abortWait="0" wrongDest="0"/>
+    <vehicleTripStatistics count="0" routeLength="0.00" speed="0.00" duration="0.00" waitingTime="0.00" timeLoss="0.00" departDelay="0.00" departDelayWaiting="-1.00" totalTravelTime="0.00" totalDepartDelay="0.00"/>
+    <pedestrianStatistics number="0" routeLength="0.00" duration="0.00" timeLoss="0.00"/>
+    <rideStatistics number="0"/>
+    <transportStatistics number="0"/>
+</statistics>

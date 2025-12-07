@@ -5,5 +5,5 @@
 
 <additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
     <!-- MeanDataEdges -->
-    <edgeData id="edgedata_output" file="/home/yarl/Desktop/git/Urban/baseline/edgeData.xml" begin="0.00" end="3600.00"/>
+    <edgeData id="edgedata_output" file="/home/yarl/Desktop/git/Urban/src/baseline/edgeData.xml" begin="0.00" end="3600.00"/>
 </additional>
