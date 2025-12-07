@@ -105,33 +105,26 @@ class SumoEnv:
             if tls not in self.phases:
                 continue
 
-            phases = self.phases[tls]  # list of strings like "grrGr..."
+            phases = self.phases[tls]
             links = traci.trafficlight.getControlledLinks(tls)
-            # links: tuple[signal_index] -> list of (inLane, outLane, viaLane)
-            # may be empty for some signals.[web:19][web:98]
 
             if not phases or not links:
                 continue
 
             best_phase = 0
-            best_score = -1
+            best_queue = -1
 
             for p_idx, phase_state in enumerate(phases):
                 green_lanes = set()
 
                 for sig_idx, signal_char in enumerate(phase_state):
-                    if signal_char not in ("G", "g"):
+                    if signal_char not in ("g", "G"):
                         continue
-
                     if sig_idx >= len(links):
-                        # safety: some phases may have more chars than there are links
                         continue
-
                     if not links[sig_idx]:
-                        # no links controlled at this signal index
                         continue
 
-                    # links[sig_idx] is a list of (inLane, outLane, viaLane)
                     in_lane = links[sig_idx][0][0]
                     green_lanes.add(in_lane)
 
@@ -140,11 +133,10 @@ class SumoEnv:
 
                 q = sum(traci.lane.getLastStepHaltingNumber(lane) for lane in green_lanes)
 
-                if q > best_score:
-                    best_score = q
+                if q > best_queue:
+                    best_queue = q
                     best_phase = p_idx
-                    
-            print(f"[heuristic] {tls} -> phase {best_phase}, score {best_score}, green_lanes={list(green_lanes)}")
+            print(f"[heuristic] {tls} -> phase {best_phase}, score {best_queue}, green_lanes={list(green_lanes)}")
             traci.trafficlight.setPhase(tls, best_phase)
 
 
