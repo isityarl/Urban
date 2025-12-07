@@ -1,6 +1,6 @@
 import os
 
-DIR = "/home/yarl/Desktop/git/Urban/baseline/"
+DIR = "/home/yarl/Desktop/git/Urban/src/baseline/"
 
 files_and_tags = {
     "edgeData.xml": "</meandata>",

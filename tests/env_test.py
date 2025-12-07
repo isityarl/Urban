@@ -1,13 +1,13 @@
 import sys
 import time
-from RL_env.env import SumoEnv
+from src.RL_env.env import SumoEnv
 import traci
 import numpy as np
 
 env = SumoEnv(
     cfg_path="data/osm.sumocfg",
     net_path="data/osm.net.xml.gz",
-    gui=False
+    gui=True
 )
 
 tls = env.controlled_tls

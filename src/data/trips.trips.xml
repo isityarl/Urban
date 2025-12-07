@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-12-07 14:59:01.911995 by $Id: ptlines2flows.py v1_3_1+0313-ccb31df3eb jakob.erdmann@dlr.de 2019-09-02 13:26:32 +0200 $ v1_24_0+0000-b72eb3fabc8
+<configuration>
+    <net-file value="/home/yarl/Desktop/sumo/tools/2025-12-07-14-58-52/osm.net.xml.gz"/>
+    <ptlines-file value="/home/yarl/Desktop/sumo/tools/2025-12-07-14-58-52/osm_ptlines.xml"/>
+    <ptstops-file value="/home/yarl/Desktop/sumo/tools/2025-12-07-14-58-52/osm_stops.add.xml"/>
+    <output-file value="/home/yarl/Desktop/sumo/tools/2025-12-07-14-58-52/osm_pt.rou.xml"/>
+    <stopinfos-file value="/home/yarl/Desktop/sumo/tools/2025-12-07-14-58-52/stopinfos.xml"/>
+    <routes-file value="/home/yarl/Desktop/sumo/tools/2025-12-07-14-58-52/vehroutes.xml"/>
+    <trips-file value="/home/yarl/Desktop/sumo/tools/2025-12-07-14-58-52/trips.trips.xml"/>
+    <min-stops value="0"/>
+    <extend-to-fringe value="True"/>
+    <random-begin value="True"/>
+    <seed value="42"/>
+    <ignore-errors value="True"/>
+    <vtype-prefix value="pt_"/>
+    <verbose value="True"/>
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vType id="pt_bus" vClass="bus" speedFactor="0.95"/>
+    <vType id="pt_tram" vClass="tram" speedFactor="1.0"/>
+    <vType id="pt_train" vClass="rail"/>
+    <vType id="pt_subway" vClass="subway"/>
+    <vType id="pt_light_rail" vClass="rail_urban"/>
+    <vType id="pt_monorail" vClass="rail_urban"/>
+    <vType id="pt_trolleybus" vClass="bus" speedFactor="0.95"/>
+    <vType id="pt_minibus" vClass="bus" speedFactor="0.95"/>
+    <vType id="pt_share_taxi" vClass="taxi" speedFactor="0.95"/>
+    <vType id="pt_aerialway" vClass="cable_car" length="2.5" width="2" personCapacity="4"/>
+    <vType id="pt_ferry" vClass="ship"/>
+    <trip id="0_trolleybus_19:0" type="pt_trolleybus" depart="3.0" departLane="best" from="1410047973#1" to="257692765#6">
+        <stop busStop="3521301807" duration="30"/>  <!-- Автовокзал Сайран -->
+        <stop busStop="9947103587" duration="30"/>  <!-- None -->
+        <stop busStop="2631725839" duration="30"/>  <!-- Тургут Озала -->
+        <stop busStop="2577857353" duration="30"/>  <!-- Розыбакиева -->
+        <stop busStop="2631725847" duration="30"/>  <!-- Гагарина -->
+        <stop busStop="2631725861" duration="30"/>  <!-- Жарокова -->
+        <stop busStop="2631725865" duration="30"/>  <!-- Манаса -->
+        <stop busStop="2476292136" duration="30"/>  <!-- Байзакова -->
+    </trip>
+    <trip id="1_bus_16:0" type="pt_bus" depart="15.0" departLane="best" from="1388681517#3" to="690355194#4">
+        <stop busStop="12646933735" duration="30"/>  <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="30"/>  <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="30"/>  <!-- Байзакова -->
+        <stop busStop="13120667507" duration="30"/>  <!-- Муканова -->
+    </trip>
+    <trip id="2_bus_37:0" type="pt_bus" depart="15.0" departLane="best" from="1388681517#3" to="690355194#4">
+        <stop busStop="12646933735" duration="30"/>  <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="30"/>  <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="30"/>  <!-- Байзакова -->
+        <stop busStop="13120667507" duration="30"/>  <!-- Муканова -->
+    </trip>
+    <trip id="3_bus_48:0" type="pt_bus" depart="17.0" departLane="best" from="1388681517#3" to="690355194#4">
+        <stop busStop="12646933735" duration="30"/>  <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="30"/>  <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="30"/>  <!-- Байзакова -->
+        <stop busStop="13120667507" duration="30"/>  <!-- Муканова -->
+    </trip>
+    <trip id="4_bus_59:0" type="pt_bus" depart="52.0" departLane="best" from="1388681517#3" to="1427251637#1">
+        <stop busStop="12646933735" duration="30"/>  <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="30"/>  <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="30"/>  <!-- Байзакова -->
+    </trip>
+    <trip id="5_bus_99:0" type="pt_bus" depart="93.0" departLane="best" from="1388681517#3" to="690355194#4">
+        <stop busStop="12646933735" duration="30"/>  <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="30"/>  <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="30"/>  <!-- Байзакова -->
+        <stop busStop="13120667507" duration="30"/>  <!-- Муканова -->
+    </trip>
+    <trip id="6_bus_126:0" type="pt_bus" depart="119.0" departLane="best" from="1388681517#3" to="690355194#4">
+        <stop busStop="12646933735" duration="30"/>  <!-- улица Айтиева -->
+        <stop busStop="13120667454" duration="30"/>  <!-- Нурмакова -->
+        <stop busStop="13120667506" duration="30"/>  <!-- Байзакова -->
+        <stop busStop="13120667507" duration="30"/>  <!-- Муканова -->
+    </trip>
+    <trip id="7_bus_119:0" type="pt_bus" depart="131.0" departLane="best" from="1427251637#1" to="690355194#4">
+        <stop busStop="13120667506" duration="30"/>  <!-- Байзакова -->
+        <stop busStop="13120667507" duration="30"/>  <!-- Муканова -->
+    </trip>
+    <trip id="8_bus_201:0" type="pt_bus" depart="132.0" departLane="best" from="1427251637#1" to="690355194#4">
+        <stop busStop="13120667506" duration="30"/>  <!-- Байзакова -->
+        <stop busStop="13120667507" duration="30"/>  <!-- Муканова -->
+    </trip>
+    <trip id="9_bus_206:0" type="pt_bus" depart="133.0" departLane="best" from="1427251637#1" to="690355194#4">
+        <stop busStop="13120667506" duration="30"/>  <!-- Байзакова -->
+        <stop busStop="13120667507" duration="30"/>  <!-- Муканова -->
+    </trip>
+    <trip id="10_bus_58:0" type="pt_bus" depart="165.0" departLane="best" from="690355194#4" to="690355194#4">
+        <stop busStop="13120667507" duration="30"/>  <!-- Муканова -->
+    </trip>
+    <trip id="11_bus_62:0" type="pt_bus" depart="204.0" departLane="best" from="30811921#1" to="30811921#1">
+        <stop busStop="27518971" duration="30"/>  <!-- ГКБ №12 -->
+    </trip>
+    <trip id="12_bus_66:0" type="pt_bus" depart="253.0" departLane="best" from="30811921#1" to="694772681">
+        <stop busStop="27518971" duration="30"/>  <!-- ГКБ №12 -->
+        <stop busStop="13123356461" duration="30"/>  <!-- ГКБ №12 -->
+    </trip>
+    <trip id="13_bus_95:0" type="pt_bus" depart="303.0" departLane="best" from="30811921#1" to="30811921#1">
+        <stop busStop="27518971" duration="30"/>  <!-- ГКБ №12 -->
+    </trip>
+    <trip id="14_bus_98:0" type="pt_bus" depart="326.0" departLane="best" from="30811921#1" to="694772681">
+        <stop busStop="27518971" duration="30"/>  <!-- ГКБ №12 -->
+        <stop busStop="13123356461" duration="30"/>  <!-- ГКБ №12 -->
+    </trip>
+    <trip id="15_bus_112:0" type="pt_bus" depart="353.0" departLane="best" from="30811921#1" to="694772681">
+        <stop busStop="27518971" duration="30"/>  <!-- ГКБ №12 -->
+        <stop busStop="13123356461" duration="30"/>  <!-- ГКБ №12 -->
+    </trip>
+    <trip id="16_bus_Bus_121:0" type="pt_bus" depart="383.0" departLane="best" from="30811921#1" to="30811921#1">
+        <stop busStop="27518971" duration="30"/>  <!-- ГКБ №12 -->
+    </trip>
+    <trip id="17_bus_123:0" type="pt_bus" depart="389.0" departLane="best" from="30811921#1" to="30811921#1">
+        <stop busStop="27518971" duration="30"/>  <!-- ГКБ №12 -->
+    </trip>
+    <trip id="18_trolleybus_6:0" type="pt_trolleybus" depart="406.0" departLane="best" from="30811921#1" to="694772681">
+        <stop busStop="27518971" duration="30"/>  <!-- ГКБ №12 -->
+        <stop busStop="13123356461" duration="30"/>  <!-- ГКБ №12 -->
+    </trip>
+    <trip id="20_bus_120:0" type="pt_bus" depart="441.0" departLane="best" from="257692802#0" to="257692765#6">
+        <stop busStop="2631725880" duration="30"/>  <!-- None -->
+        <stop busStop="2577857353" duration="30"/>  <!-- Розыбакиева -->
+        <stop busStop="2631725847" duration="30"/>  <!-- Гагарина -->
+        <stop busStop="2631725861" duration="30"/>  <!-- Жарокова -->
+        <stop busStop="2476292136" duration="30"/>  <!-- Байзакова -->
+    </trip>
+    <trip id="21_subway_1:0" type="pt_subway" depart="483.0" departLane="best" from="244967942#0" to="244967942#1">
+        <stop busStop="2522351050" duration="30"/>  <!-- Алатау -->
+        <stop busStop="3464799079" duration="30"/>  <!-- Сайран -->
+    </trip>
+    <trip id="22_bus_428:0" type="pt_bus" depart="485.0" departLane="best" from="1103848386#2" to="1103848386#2">
+        <stop busStop="1794599637" duration="30"/>  <!-- проспект Абая -->
+    </trip>
+    <trip id="23_subway_1:1" type="pt_subway" depart="535.0" departLane="best" from="244967942#1" to="244967942#0">
+        <stop busStop="3464799079" duration="30"/>  <!-- Сайран -->
+        <stop busStop="2522351050" duration="30"/>  <!-- Алатау -->
+    </trip>
+</routes>
