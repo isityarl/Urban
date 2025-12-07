@@ -3,7 +3,6 @@
 /rl_test1
 __pycache__
 *.log
-*.txt
 *.dump
 /baseline
 

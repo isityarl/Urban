@@ -1,7 +1,7 @@
 from sumolib import checkBinary
 import traci
 
-sumo_cfg = "data/almaty.sumocfg"
+sumo_cfg = "src/data/osm.sumocfg"
 
 traci.start([checkBinary("sumo"), "-c", sumo_cfg])
 
