@@ -10,13 +10,22 @@ import pandas as pd
 import os
 
 
-def train(gui, episodes):
+def train(gui, episodes, pre_model=None):
     env = SumoEnv(cfg_path='src/data/osm.sumocfg', net_path='src/data/osm.net.xml.gz', gui=gui, step_length=1)
-    state_size = 4
+    state_size = 14
 
     agent = BaseAgent(state_size, env.main_phases, config)
-    rewards_per_episode = []
 
+    if pre_model is not None and os.path.exists(pre_model):
+        checkpoint = torch.load(pre_model, map_location=agent.device)
+        for tl, net in agent.policy_net.items():
+            if tl in checkpoint:
+                net.load_state_dict(checkpoint[tl])
+
+        agent.update_target()
+        print('Model loaded')
+
+    rewards_per_episode = []
     tls_list = env.main_tls
     print('Cuda', torch.cuda.is_available())
 
@@ -25,9 +34,14 @@ def train(gui, episodes):
         episode_reward = 0
         done = False
         steps_done = 0
- 
+
+        interval = 15
         while not done and steps_done < config['max_steps']:
-            actions = agent.select_action(state, tls_list, env.main_phases)
+            if steps_done % interval == 0:
+                actions = agent.select_action(state, tls_list, env.main_phases)
+                last_actions = actions
+            else:
+                actions = last_actions    
             next_state, rewards, done, _ = env.step(actions)
 
             for tl, action in actions.items():
@@ -41,13 +55,13 @@ def train(gui, episodes):
 
             state = next_state
             steps_done += 1
-            agent.epsilon = max(agent.epsilon_min, agent.epsilon * agent.epsilon_decay)
             if steps_done % 100 == 0:
                 print('Step', steps_done)
 
             if steps_done % config['target_update_freq'] == 0:
                  agent.update_target()
 
+        agent.epsilon = max(agent.epsilon_min, agent.epsilon * agent.epsilon_decay)
         print(f"Episode {episode+1}/{episodes} | Reward: {episode_reward:.2f} | Epsilon: {agent.epsilon:.3f}")
         rewards_per_episode.append(episode_reward)
 
@@ -59,4 +73,4 @@ def train(gui, episodes):
     pd.DataFrame(rewards_per_episode, columns=["reward"]).to_csv("src/res/logs/DQN/model1.csv", index=False)
     print('rewards saved')
 if __name__ == "__main__":
-    train(gui=True, episodes=1)
+    train(gui=True, episodes=1, pre_model='src/res/models/DQN/model1.pth')

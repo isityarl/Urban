@@ -29,12 +29,12 @@ class SumoEnv:
         'cluster_11383565816_12553582494_12553582498_260710611_#1more'
     ]
 
-    def __init__(self, cfg_path, net_path, gui=False, step_length=1):
+    def init(self, cfg_path, net_path, gui=False, step_length=1):
         self.cfg_path = cfg_path
         self.net_path = net_path
         self.gui = gui
         self.step_length = step_length
-        self.max_steps = 700
+        self.max_steps = 1000
 
         self.controlled_tls = self.find_all_intersections()
         self.main_tls = [tl for tl in self.controlled_tls if tl in self.MAIN_TLS]
@@ -71,27 +71,43 @@ class SumoEnv:
             traci.close()
 
         binary = "sumo-gui" if self.gui else "sumo"
-        traci.start([binary, "-c", self.cfg_path, "--step-length", str(self.step_length), "--no-step-log","--start", "--no-warnings", "--scale", "2"])
+        traci.start([binary, "-c", self.cfg_path, "--step-length", str(self.step_length), "--no-step-log","--start", "--no-warnings", "--scale", "1.5"])
 
         self.current = 0
         return self.get_state()
 
     
-    def get_state(self): # Берем инфу о состоянии среды
+    def get_state(self):
         state = {}
         for tls in self.controlled_tls:
-            lanes = traci.trafficlight.getControlledLanes(tls)
-            counts = [traci.lane.getLastStepVehicleNumber(l) for l in lanes]
+            lanes = list(traci.trafficlight.getControlledLanes(tls))
+            lanes = lanes[:4] + [None] * max(0, 4 - len(lanes))
 
-            if len(counts) < 3:
-                counts = counts + [0] * (3 - len(counts))
-            else:
-                counts = counts[:3]
 
+            q = []
+            wait = []
+            speed = []
+
+            for lane in lanes:
+                if lane is None:
+                    q.append(0)
+                    wait.append(0)
+                    speed.append(1.0)
+                    continue
+
+                q.append(traci.lane.getLastStepHaltingNumber(lane))
+                wait.append(traci.lane.getWaitingTime(lane))
+
+                ms = traci.lane.getLastStepMeanSpeed(lane)
+                mx = traci.lane.getMaxSpeed(lane)
+                speed.append(ms / mx if mx > 0 else 1.0)
             phase = traci.trafficlight.getPhase(tls)
-            state[tls] = counts + [phase]
+            time_in_phase = traci.trafficlight.getPhaseDuration(tls) - traci.trafficlight.getNextSwitch(tls)
+
+            state[tls] = q + wait + speed + [phase, time_in_phase]
 
         return state
+
 
     def step(self, actions): # Делаем шаг с заданным action
         for tls, action in actions.items():
@@ -103,7 +119,7 @@ class SumoEnv:
         self.current += 1
 
         state = self.get_state()
-        rewards = self.get_reward()
+        rewards = self.get_reward(state)
         done = self.get_done()
 
         return state, rewards, done, {}
@@ -144,30 +160,48 @@ class SumoEnv:
                 if q > best_queue:
                     best_queue = q
                     best_phase = p_idx
-            print(f"[heuristic] {tls} -> phase {best_phase}, score {best_queue}, green_lanes={list(green_lanes)}")
             traci.trafficlight.setPhase(tls, best_phase)
 
 
     
-    def get_reward(self): # Вычисляем reward
+    def get_reward(self, state=None):
+        if state is None:
+            state = self.get_state()
+
         rewards = {}
-        alpha = 1
+        
+        alpha = 1.0 
         beta = 0.25
+        gamma = 0.1 
+        delta = 0.8
+        epsilon = 0.05
 
         for tls in self.main_tls:
-            total_queue = 0
-            total_delay = 0
-            lanes = traci.trafficlight.getControlledLanes(tls)
-            for lane in lanes:
-                total_queue += traci.lane.getLastStepHaltingNumber(lane)
-                speed = traci.lane.getLastStepMeanSpeed(lane)
-                max_speed = traci.lane.getMaxSpeed(lane)
-                delay = (1 - speed / max_speed) if max_speed > 0 else 0
-                total_delay += delay
-            
-            rewards[tls] = -(alpha * total_queue + beta * total_delay) #формула
+            tls_state = state[tls]
+            q = np.array(tls_state[0:4])
+            wait = np.array(tls_state[4:8])
+            speed = np.array(tls_state[8:12])
+            phase = tls_state[12]
+            time_in_phase = tls_state[13]
+
+            total_queue = np.sum(q)
+            total_wait = np.sum(wait)
+            avg_speed = np.mean(speed)
+
+            lane_imbalance = np.std(q)
+
+            phase_penalty = max(time_in_phase - 10, 0)
+
+            reward = -(alpha * total_queue + 
+                    beta * total_wait - 
+                    gamma * avg_speed + 
+                    delta * lane_imbalance + 
+                    epsilon * phase_penalty)
+
+            rewards[tls] = reward
 
         return rewards
+
 
     
     def get_done(self):
@@ -177,7 +211,7 @@ class SumoEnv:
     def close(self):
         traci.close()
 
-if __name__ == "__main__":
+if __name__ == "main":
     cfg_path = "src/data/osm.sumocfg"
     net_path = "src/data/osm.net.xml"
 

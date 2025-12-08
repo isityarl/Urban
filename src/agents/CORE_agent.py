@@ -8,7 +8,7 @@ import pandas as pd
 from src.agents.DQN import DQN
 
 class BaseAgent:
-    def __init__(self, state_size, tls_phases, config):
+    def init(self, state_size, tls_phases, config):
         self.state_size = state_size
         self.tls_phases = tls_phases
         self.config = config
@@ -18,7 +18,6 @@ class BaseAgent:
         self.target_net = {}
         self.optimizer = {}
         self.memory = {}
-        self.epsilon = {}
 
         for tl, phases in tls_phases.items():
             action_size = len(phases)
@@ -35,6 +34,19 @@ class BaseAgent:
         self.epsilon_decay = config['epsilon_decay']
         self.batch_size = config['batch_size']
 
+        self.max_queue = 10.0
+        self.max_wait = 50.0
+        self.max_speed = 1.0 
+
+    def normalize_state(self, tls_state, tl):
+        q = np.array(tls_state[0:4]) / self.max_queue
+        wait = np.array(tls_state[4:8]) / self.max_wait
+        speed = np.array(tls_state[8:12]) / self.max_speed
+        phase = np.array([tls_state[12] / len(self.tls_phases[tl])])
+        time_in_phase = np.array([tls_state[13] / 50.0])
+
+        return np.concatenate([q, wait, speed, phase, time_in_phase])    
+
     def select_action(self, state, tls, phases):
         action = {}
         for tl in tls:
@@ -42,7 +54,7 @@ class BaseAgent:
                 action[tl] = np.random.randint(len(phases[tl]))
             else:
                 s_tl = state[tl]
-                state_tensor = torch.FloatTensor(s_tl).unsqueeze(0).to(self.device)
+                state_tensor = torch.FloatTensor(self.normalize_state(s_tl, tl)).unsqueeze(0).to(self.device)
                 with torch.no_grad():
                     q_values = self.policy_net[tl](state_tensor)
                 
@@ -61,10 +73,14 @@ class BaseAgent:
             batch = random.sample(self.memory[tl], self.batch_size)
             states, actions, rewards, next_states, dones = zip(*batch)
 
-            states = torch.FloatTensor(states).to(self.device)
+            states_np = np.array([self.normalize_state(s, tl) for s in states], dtype=np.float32)
+            states = torch.from_numpy(states_np).to(self.device)
+
+            next_states_np = np.array([self.normalize_state(s, tl) for s in next_states], dtype=np.float32)
+            next_states = torch.from_numpy(next_states_np).to(self.device)
+
             actions = torch.LongTensor(actions).unsqueeze(1).to(self.device)
             rewards = torch.FloatTensor(rewards).to(self.device)
-            next_states = torch.FloatTensor(next_states).to(self.device)
             dones = torch.FloatTensor(dones).to(self.device)
 
             q_values = self.policy_net[tl](states).gather(1, actions).squeeze()
@@ -76,6 +92,9 @@ class BaseAgent:
             self.optimizer[tl].zero_grad()
             loss.backward()
             self.optimizer[tl].step()
+
+        if self.epsilon > self.epsilon_min:
+            self.epsilon *= self.epsilon_decay    
 
     def update_target(self):
         for tl in self.policy_net.keys():
