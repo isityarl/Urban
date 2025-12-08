@@ -8,7 +8,7 @@ import pandas as pd
 from src.agents.DQN import DQN
 
 class BaseAgent:
-    def init(self, state_size, tls_phases, config):
+    def __init__(self, state_size, tls_phases, config):
         self.state_size = state_size
         self.tls_phases = tls_phases
         self.config = config

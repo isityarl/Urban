@@ -29,7 +29,7 @@ class SumoEnv:
         'cluster_11383565816_12553582494_12553582498_260710611_#1more'
     ]
 
-    def init(self, cfg_path, net_path, gui=False, step_length=1):
+    def __init__(self, cfg_path, net_path, gui=False, step_length=1):
         self.cfg_path = cfg_path
         self.net_path = net_path
         self.gui = gui
@@ -192,11 +192,11 @@ class SumoEnv:
 
             phase_penalty = max(time_in_phase - 10, 0)
 
-            reward = -(alpha * total_queue + 
-                    beta * total_wait - 
-                    gamma * avg_speed + 
-                    delta * lane_imbalance + 
-                    epsilon * phase_penalty)
+            reward = -(alpha * total_queue +
+                       beta * total_wait +
+                       delta * lane_imbalance +
+                       epsilon * phase_penalty) + gamma * avg_speed
+
 
             rewards[tls] = reward
 
