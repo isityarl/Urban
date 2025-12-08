@@ -92,9 +92,7 @@ class BaseAgent:
             self.optimizer[tl].zero_grad()
             loss.backward()
             self.optimizer[tl].step()
-
-        if self.epsilon > self.epsilon_min:
-            self.epsilon *= self.epsilon_decay    
+ 
 
     def update_target(self):
         for tl in self.policy_net.keys():
