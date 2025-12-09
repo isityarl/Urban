@@ -6,6 +6,7 @@ import traci.constants as tc
 import xml.etree.ElementTree as ET
 import sumolib
 import gzip
+import time
 
 class SumoEnv:
     MAIN_TLS = [
@@ -39,42 +40,61 @@ class SumoEnv:
         self.controlled_tls = self.find_all_intersections()
         self.main_tls = [tl for tl in self.MAIN_TLS if tl in self.controlled_tls]
         self.small_tls = [tl for tl in self.controlled_tls if tl not in self.main_tls]
-        
-        self.phases = self.load_tls_phases(net_path)
+
+        self.phases = self.load_tls_phases(self.net_path)
         self.main_phases = {tl: self.phases[tl] for tl in self.main_tls if tl in self.phases}
+
+        self.rl_phase_map = {}
+        for tl, phases in self.phases.items():
+            rl_indices = []
+            for idx, state in enumerate(phases):
+                if any(c in ("g", "G") for c in state):
+                    rl_indices.append(idx)
+            if not rl_indices:
+                rl_indices = list(range(len(phases)))
+            self.rl_phase_map[tl] = rl_indices
+
+        self.pending_transition = {}
+        self.transition_duration = 2
 
         self.current = 0
 
-    def find_all_intersections(self): # Список светофоров
+    def find_all_intersections(self):
         net = sumolib.net.readNet(self.net_path)
         tls = [n.getID() for n in net.getTrafficLights()]
         return tls
 
-    
     def load_tls_phases(self, add_path):
-        with gzip.open("src/data/osm.net.xml.gz", "rt", encoding="utf-8") as f:
-            tree = ET.parse(f)  
-        root = tree.getroot()
+        phases = {}
+        try:
+            if add_path.endswith(".gz"):
+                f = gzip.open(add_path, "rt", encoding="utf-8")
+            else:
+                f = open(add_path, "rt", encoding="utf-8")
+            tree = ET.parse(f)
+            root = tree.getroot()
+            for tl in root.findall("tlLogic"):
+                tls_id = tl.get("id")
+                phase_states = [p.get("state") for p in tl.findall("phase")]
+                phases[tls_id] = phase_states
+            f.close()
+        except Exception as e:
+            print("Failed to parse net phases:", e)
+        return phases
 
-        tls_phases = {}
-
-        for tl in root.findall("tlLogic"):
-            tls_id = tl.get("id")
-            phases = [p.get("state") for p in tl.findall("phase")]
-            tls_phases[tls_id] = phases
-
-        return tls_phases
-        
-    
     def reset(self):
         if traci.isLoaded():
-            traci.close()
+            try:
+                traci.close()
+            except Exception:
+                pass
+
         binary = "sumo-gui" if self.gui else "sumo"
         self.current = 0
-        traci.start([binary, "-c", self.cfg_path, "--step-length", str(self.step_length), "--no-step-log", "--start", "--no-warnings", "--scale", "1.5"])
+        traci.start([binary, "-c", self.cfg_path, "--step-length", str(self.step_length),
+                     "--no-step-log", "--start", "--no-warnings", "--scale", "1.5"])
         self.current = 0
 
-        # Wait for all main TLS to exist
         state = self.get_state()
         missing_tls = [tl for tl in self.main_tls if tl not in state]
         steps = 0
@@ -89,14 +109,14 @@ class SumoEnv:
 
         return state
 
-
-    
     def get_state(self):
         state = {}
         for tls in self.main_tls:
-            lanes = list(traci.trafficlight.getControlledLanes(tls))
+            try:
+                lanes = list(traci.trafficlight.getControlledLanes(tls))
+            except Exception:
+                lanes = []
             lanes = lanes[:4] + [None] * max(0, 4 - len(lanes))
-
 
             q = []
             wait = []
@@ -108,36 +128,116 @@ class SumoEnv:
                     wait.append(0)
                     speed.append(1.0)
                     continue
+                try:
+                    q.append(traci.lane.getLastStepHaltingNumber(lane))
+                except Exception:
+                    q.append(0)
+                try:
+                    wait.append(traci.lane.getWaitingTime(lane))
+                except Exception:
+                    wait.append(0)
+                try:
+                    ms = traci.lane.getLastStepMeanSpeed(lane)
+                    mx = traci.lane.getMaxSpeed(lane)
+                    speed.append(ms / mx if mx > 0 else 1.0)
+                except Exception:
+                    speed.append(1.0)
 
-                q.append(traci.lane.getLastStepHaltingNumber(lane))
-                wait.append(traci.lane.getWaitingTime(lane))
+            try:
+                phase = traci.trafficlight.getPhase(tls)
+            except Exception:
+                phase = 0
 
-                ms = traci.lane.getLastStepMeanSpeed(lane)
-                mx = traci.lane.getMaxSpeed(lane)
-                speed.append(ms / mx if mx > 0 else 1.0)
-            phase = traci.trafficlight.getPhase(tls)
-            time_in_phase = traci.trafficlight.getPhaseDuration(tls) - traci.trafficlight.getNextSwitch(tls)
+            try:
+                next_switch = traci.trafficlight.getNextSwitch(tls)
+                cur_time = traci.simulation.getTime()
+                
+                phase_duration = traci.trafficlight.getPhaseDuration(tls)
+                time_in_phase = max(0.0, phase_duration - max(0.0, next_switch - cur_time))
+            except Exception:
+                time_in_phase = 0.0
 
             state[tls] = q + wait + speed + [phase, time_in_phase]
 
         return state
 
+    def find_transition_phase(self, tl, current_phase_idx, target_phase_idx):
+        """
+        Heuristic to find a transition phase (yellow) from current to target.
+        If no suitable transition found, return None to signal direct switch.
+        """
+        phases = self.phases.get(tl, [])
+        if not phases or current_phase_idx is None:
+            return None
 
-    def step(self, actions): # Делаем шаг с заданным action
-        for tls, action in actions.items():
-            traci.trafficlight.setPhase(tls, action)
+        cur_state = phases[current_phase_idx]
+        cur_green_pos = {i for i, c in enumerate(cur_state) if c in ("g", "G")}
 
-        self.apply_small_tls_heuristic()
+        for idx, cand_state in enumerate(phases):
+            if idx == current_phase_idx or idx == target_phase_idx:
+                continue
+            ok = True
+            for pos in cur_green_pos:
+                if pos >= len(cand_state) or cand_state[pos] not in ("y", "Y"):
+                    ok = False
+                    break
+            if ok:
+                return idx
+        return None
 
-        traci.simulationStep()
-        self.current += 1
+    def request_phase_change(self, tl, rl_action_idx):
+        
+        if tl not in self.rl_phase_map:
+            return
 
-        state = self.get_state()
-        rewards = self.get_reward(state)
-        done = self.get_done()
+        rl_map = self.rl_phase_map[tl]
+        if rl_action_idx < 0 or rl_action_idx >= len(rl_map):
+            return
 
-        return state, rewards, done, {}
-    
+        target_phase_idx = rl_map[rl_action_idx]
+        try:
+            current_phase = traci.trafficlight.getPhase(tl)
+        except Exception:
+            current_phase = None
+
+        if current_phase == target_phase_idx:
+            if tl in self.pending_transition:
+                del self.pending_transition[tl]
+            return
+
+        transition_idx = self.find_transition_phase(tl, current_phase, target_phase_idx)
+        if transition_idx is None:
+            self.pending_transition[tl] = {"target": target_phase_idx, "transition": None, "steps_left": 1}
+        else:
+            self.pending_transition[tl] = {"target": target_phase_idx, "transition": transition_idx, "steps_left": self.transition_duration}
+
+    def apply_pending_transitions_now(self):
+        for tls, info in list(self.pending_transition.items()):
+            if info["transition"] is not None and info["steps_left"] == self.transition_duration:
+                try:
+                    traci.trafficlight.setPhase(tls, info["transition"])
+                except Exception:
+                    pass
+                info["steps_left"] -= 1
+            elif info["transition"] is not None and info["steps_left"] > 0:
+                try:
+                    traci.trafficlight.setPhase(tls, info["transition"])
+                except Exception:
+                    pass
+                info["steps_left"] -= 1
+            elif info["transition"] is not None and info["steps_left"] <= 0:
+                try:
+                    traci.trafficlight.setPhase(tls, info["target"])
+                except Exception:
+                    pass
+                del self.pending_transition[tls]
+            elif info["transition"] is None:
+                try:
+                    traci.trafficlight.setPhase(tls, info["target"])
+                except Exception:
+                    pass
+                del self.pending_transition[tls]
+
     def apply_small_tls_heuristic(self):
         for tls in self.small_tls:
             if tls not in self.phases:
@@ -174,19 +274,20 @@ class SumoEnv:
                 if q > best_queue:
                     best_queue = q
                     best_phase = p_idx
-            traci.trafficlight.setPhase(tls, best_phase)
+            try:
+                traci.trafficlight.setPhase(tls, best_phase)
+            except Exception:
+                pass
 
-
-    
     def get_reward(self, state=None):
         if state is None:
             state = self.get_state()
 
         rewards = {}
-        
-        alpha = 1.0 
+
+        alpha = 1.0
         beta = 0.25
-        gamma = 0.1 
+        gamma = 0.1
         delta = 0.8
         epsilon = 0.05
 
@@ -211,43 +312,66 @@ class SumoEnv:
                        delta * lane_imbalance +
                        epsilon * phase_penalty) + gamma * avg_speed
 
-
-            rewards[tls] = reward
+            rewards[tls] = float(reward)
 
         return rewards
 
-
-    
     def get_done(self):
-        if self.current >= self.max_steps: return True
+        if self.current >= self.max_steps:
+            return True
         return False
-    
+
+    def step(self, actions):
+        for tls, rl_action in actions.items():
+            if tls in self.rl_phase_map:
+                try:
+                    self.request_phase_change(tls, int(rl_action))
+                except Exception:
+                    pass
+            else:
+                try:
+                    traci.trafficlight.setPhase(tls, int(rl_action))
+                except Exception:
+                    pass
+
+        self.apply_pending_transitions_now()
+        self.apply_small_tls_heuristic()
+
+        traci.simulationStep()
+        self.current += 1
+
+        state = self.get_state()
+        rewards = self.get_reward(state)
+        done = self.get_done()
+
+        return state, rewards, done, {}
+
     def close(self):
-        traci.close()
+        try:
+            traci.close()
+        except Exception:
+            pass
+
 
 if __name__ == "__main__":
     cfg_path = "src/data/osm.sumocfg"
-    net_path = "src/data/osm.net.xml"
-
+    net_path = "src/data/osm.net.xml.gz"
     env = SumoEnv(cfg_path=cfg_path, net_path=net_path, gui=True, step_length=1)
-
     state = env.reset()
-
     for step in range(100):
-        # do nothing on main tls, only heuristic on small tls
-        actions = {tl: traci.trafficlight.getPhase(tl) for tl in env.main_tls}
+        actions = {tl: 0 for tl in env.main_tls}
         state, rewards, done, _ = env.step(actions)
-
         if step % 10 == 0:
             print("Step", step)
             for tls in env.small_tls[:5]:
-                print(
-                    tls,
-                    "phase:", traci.trafficlight.getPhase(tls),
-                    "state:", traci.trafficlight.getRedYellowGreenState(tls)
-                )
-
+                try:
+                    print(
+                        tls,
+                        "phase:", traci.trafficlight.getPhase(tls),
+                        "state:", traci.trafficlight.getRedYellowGreenState(tls)
+                    )
+                except Exception:
+                    pass
         if done:
             break
-
     env.close()

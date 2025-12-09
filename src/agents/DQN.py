@@ -10,6 +10,11 @@ class DQN(nn.Module):
         self.fc4 = nn.Linear(64, output_dim)
         self.dropout = nn.Dropout(p=dropout)
 
+        nn.init.kaiming_uniform_(self.fc1.weight, nonlinearity='relu')
+        nn.init.kaiming_uniform_(self.fc2.weight, nonlinearity='relu')
+        nn.init.kaiming_uniform_(self.fc3.weight, nonlinearity='relu')
+        nn.init.xavier_uniform_(self.fc4.weight)
+
     def forward(self, x):
         x = torch.relu(self.fc1(x))
         x = torch.relu(self.fc2(x))
