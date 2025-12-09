@@ -37,11 +37,11 @@ class SumoEnv:
         self.max_steps = 1000
 
         self.controlled_tls = self.find_all_intersections()
-        self.main_tls = [tl for tl in self.controlled_tls if tl in self.MAIN_TLS]
-        self.small_tls = [tl for tl in self.controlled_tls if tl not in self.MAIN_TLS]
+        self.main_tls = [tl for tl in self.MAIN_TLS if tl in self.controlled_tls]
+        self.small_tls = [tl for tl in self.controlled_tls if tl not in self.main_tls]
         
         self.phases = self.load_tls_phases(net_path)
-        self.main_phases = {tl: self.phases[tl] for tl in self.main_tls}
+        self.main_phases = {tl: self.phases[tl] for tl in self.main_tls if tl in self.phases}
 
         self.current = 0
 
@@ -66,20 +66,34 @@ class SumoEnv:
         return tls_phases
         
     
-    def reset(self): # Перезапуск среды + начальное состояние
+    def reset(self):
         if traci.isLoaded():
             traci.close()
-
         binary = "sumo-gui" if self.gui else "sumo"
-        traci.start([binary, "-c", self.cfg_path, "--step-length", str(self.step_length), "--no-step-log","--start", "--no-warnings", "--scale", "1.5"])
-
         self.current = 0
-        return self.get_state()
+        traci.start([binary, "-c", self.cfg_path, "--step-length", str(self.step_length), "--no-step-log", "--start", "--no-warnings", "--scale", "1.5"])
+        self.current = 0
+
+        # Wait for all main TLS to exist
+        state = self.get_state()
+        missing_tls = [tl for tl in self.main_tls if tl not in state]
+        steps = 0
+        while missing_tls and steps < 50:
+            traci.simulationStep()
+            state = self.get_state()
+            missing_tls = [tl for tl in self.main_tls if tl not in state]
+            steps += 1
+
+        if missing_tls:
+            raise RuntimeError(f"Some main TLS missing after 50 steps: {missing_tls}")
+
+        return state
+
 
     
     def get_state(self):
         state = {}
-        for tls in self.controlled_tls:
+        for tls in self.main_tls:
             lanes = list(traci.trafficlight.getControlledLanes(tls))
             lanes = lanes[:4] + [None] * max(0, 4 - len(lanes))
 
@@ -211,7 +225,7 @@ class SumoEnv:
     def close(self):
         traci.close()
 
-if __name__ == "main":
+if __name__ == "__main__":
     cfg_path = "src/data/osm.sumocfg"
     net_path = "src/data/osm.net.xml"
 
