@@ -82,7 +82,7 @@ class SumoEnv:
             print("Failed to parse net phases:", e)
         return phases
 
-    def reset(self):
+    def reset(self, episode=0, env_id=0):
         if traci.isLoaded():
             try:
                 traci.close()
@@ -91,8 +91,20 @@ class SumoEnv:
 
         binary = "sumo-gui" if self.gui else "sumo"
         self.current = 0
-        traci.start([binary, "-c", self.cfg_path, "--step-length", str(self.step_length),
-                     "--no-step-log", "--start", "--no-warnings", "--scale", "1.5"])
+
+        logfile = f"src/res/logs/DQN/details/env_{env_id}_ep{episode}.log"
+        traci.start([
+            binary,
+            "-c", self.cfg_path,
+            "--step-length", str(self.step_length),
+            "--no-step-log",
+            "--start",
+            "--no-warnings",
+            "--scale", "1.5",
+            "--duration-log.statistics",
+            "--verbose",
+            "--log", logfile
+        ])
         self.current = 0
 
         state = self.get_state()

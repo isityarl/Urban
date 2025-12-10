@@ -7,14 +7,17 @@ from src.RL_env.parallel_env import ParallelEnvs
 from src.train.config import config
 import pandas as pd
 
-def train_parallel_dqn(num_envs=4, episodes=50):
+def train_parallel_dqn(num_envs=4, episodes=50, pre_model=None):
     print(f"Starting parallel DQN with {num_envs} SUMO environments (CPU only)")
+
+    log_dir = "src/res/logs/DQN/details"
+    os.makedirs(log_dir, exist_ok=True)
 
     envs = ParallelEnvs(
         num_envs=num_envs,
         cfg="src/data/osm.sumocfg",
         net="src/data/osm.net.xml.gz",
-        gui=True,
+        gui=False,
         step_length=1
     )
 
@@ -36,10 +39,37 @@ def train_parallel_dqn(num_envs=4, episodes=50):
     agent = BaseAgent(state_size=14, tls_phases=tls_phases, config=config, rl_action_counts=rl_action_counts)
     tls_list = list(agent.tls_phases.keys())
 
+    if pre_model is not None and os.path.exists(pre_model):
+        print(f"\nLoading pretrained model: {pre_model}")
+
+        checkpoint = torch.load(pre_model, map_location=agent.device)
+
+        for tl, net in agent.policy_net.items():
+            if tl in checkpoint['models']:
+                net.load_state_dict(checkpoint['models'][tl])
+
+        for tl, net in agent.target_net.items():
+            if tl in checkpoint['models']:
+                net.load_state_dict(checkpoint['models'][tl])
+
+        for tl, opt in agent.optimizer.items():
+            if tl in checkpoint['optimizers']:
+                opt.load_state_dict(checkpoint['optimizers'][tl])
+
+        agent.epsilon = checkpoint.get('epsilon', agent.epsilon)
+
+        start_episode = checkpoint.get('episode', 0)
+        print(f"Resuming training from episode {start_episode+1}")
+
+    else:
+        start_episode = 0
+        print("No pretrained model provided. Starting from scratch.")
+
+
     rewards_all_episodes = []
 
-    for episode in range(episodes):
-        states_and_info = envs.reset()
+    for episode in range(start_episode, episodes):
+        states_and_info = envs.reset(episode=episode)
         states_list = [r["state"] for r in states_and_info]
 
         episode_rewards = [0.0] * num_envs
@@ -49,7 +79,7 @@ def train_parallel_dqn(num_envs=4, episodes=50):
 
         action_interval = config.get('action_interval', 15)
 
-        print(f"\n=== Episode {episode+1}/{episodes} ===")
+        print(f"\nEpisode {episode+1}/{episodes}")
 
         while not all(done_flags):
             actions_list = []
@@ -86,8 +116,8 @@ def train_parallel_dqn(num_envs=4, episodes=50):
             agent.replay()
 
             if steps_done % 100 == 0:
-                mem_sizes = {tl: len(agent.memory[tl]) for tl in tls_list}
-                print(f"Step {steps_done} | Memory sizes per TLS: {mem_sizes}")
+                total_mem = sum(len(agent.memory[tl]) for tl in tls_list)
+                print(f"Step {steps_done} | Total memory: {total_mem}")
 
             states_list = [n[0] for n in next_list]
             steps_done += 1
@@ -133,4 +163,4 @@ def train_parallel_dqn(num_envs=4, episodes=50):
     print("\nTraining finished. Models and rewards saved.")
 
 if __name__ == "__main__":
-    train_parallel_dqn(num_envs=4, episodes=100)
+    train_parallel_dqn(num_envs=4, episodes=1000, pre_model="src/res/models/DQN/model_parallel_ep300.pth")
