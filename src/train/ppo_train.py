@@ -7,7 +7,7 @@ from src.agents.PPO_agent import PPOAgent
 from src.RL_env.parallel_env import ParallelEnvs
 from src.train.config import config
 
-def train_parallel_ppo(num_envs=None, episodes=None, pre_model=None, gui=None):
+def train_parallel_ppo(num_envs=4, episodes=100, pre_model=None, gui=False):
     print(f"Starting parallel PPO with {num_envs} SUMO environments (CPU/GPU)")
 
     envs = ParallelEnvs(
@@ -31,11 +31,11 @@ def train_parallel_ppo(num_envs=None, episodes=None, pre_model=None, gui=None):
     tls_list = list(agent.tls_phases.keys())
 
     if pre_model is not None and os.path.exists(pre_model):
-        checkpoint = torch.load(pre_model, map_location=agent.device)
-        for tl, net in agent.policies.items():
-            if tl in checkpoint:
-                net.load_state_dict(checkpoint[tl])
-        print('Pretrained model loaded')
+        ckpt = torch.load(pre_model, map_location=agent.device)
+        agent.body.load_state_dict(ckpt["body"])
+        agent.heads.load_state_dict(ckpt["heads"])
+        print("Pretrained PPO model loaded")
+
 
     rewards_all_episodes = []
 
@@ -103,12 +103,21 @@ def train_parallel_ppo(num_envs=None, episodes=None, pre_model=None, gui=None):
             ckpt_dir = "src/res/models/PPO"
             os.makedirs(ckpt_dir, exist_ok=True)
             save_path = os.path.join(ckpt_dir, f"model_parallel_ep{episode}.pth")
-            torch.save({tl: net.state_dict() for tl, net in agent.policies.items()}, save_path)
+            ckpt = {
+                "body": agent.body.state_dict(),
+                "heads": agent.heads.state_dict(),
+            }
+            torch.save(ckpt, save_path)
+
             print(f"Saved checkpoint: {save_path}")
 
     os.makedirs("src/res/models/PPO", exist_ok=True)
     final_path = os.path.join("src/res/models/PPO", "model_parallel_final.pth")
-    torch.save({tl: net.state_dict() for tl, net in agent.policies.items()}, final_path)
+    ckpt = {
+        "body": agent.body.state_dict(),
+        "heads": agent.heads.state_dict(),
+    }
+    torch.save(ckpt, final_path)
     print("Final model saved")
 
     os.makedirs("src/res/logs/PPO", exist_ok=True)
@@ -119,4 +128,4 @@ def train_parallel_ppo(num_envs=None, episodes=None, pre_model=None, gui=None):
     envs.close()
 
 if __name__ == "__main__":
-    train_parallel_ppo(num_envs=4, episodes=2, gui=True)
+    train_parallel_ppo(num_envs=4, episodes=1000, gui=False)

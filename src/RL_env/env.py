@@ -93,7 +93,7 @@ class SumoEnv:
         binary = "sumo-gui" if self.gui else "sumo"
         self.current = 0
 
-        logfile = f"src/res/logs/DQN/details/env_{env_id}_ep{episode}.log"
+        logfile = f"src/res/logs/PPO/details/env_{env_id}_ep{episode}.log"
         traci.start([
             binary,
             "-c", self.cfg_path,
