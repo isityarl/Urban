@@ -37,6 +37,7 @@ class SumoEnv:
         self.step_length = step_length
         self.max_steps = 1000
 
+        self.lanes_by_tls = {}
         self.controlled_tls = self.find_all_intersections()
         self.main_tls = [tl for tl in self.MAIN_TLS if tl in self.controlled_tls]
         self.small_tls = [tl for tl in self.controlled_tls if tl not in self.main_tls]
@@ -124,10 +125,36 @@ class SumoEnv:
     def get_state(self):
         state = {}
         for tls in self.main_tls:
-            try:
-                lanes = list(traci.trafficlight.getControlledLanes(tls))
-            except Exception:
-                lanes = []
+            if tls not in self.lanes_by_tls:
+                try:
+                    links = traci.trafficlight.getControlledLinks(tls)
+                    left_lanes = set()
+                    other_lanes = set()
+
+                    for link_list in links:
+                        if not link_list:
+                            continue
+                        in_lane, out_lane, _ = link_list[0]
+                        in_edge = in_lane.rsplit('_', 1)[0]
+                        out_edge = out_lane.rsplit('_', 1)[0]
+                        try:
+                            a_in = traci.edge.getAngle(in_edge)
+                            a_out = traci.edge.getAngle(out_edge)
+                            d = (a_out - a_in + 540) % 360 - 180
+                        except Exception:
+                            d = 0.0
+
+                        if d > 45:
+                            left_lanes.add(in_lane)
+                        else:
+                            other_lanes.add(in_lane)
+
+                    all_lanes = list(left_lanes) + [ln for ln in other_lanes if ln not in left_lanes]
+                    self.lanes_by_tls[tls] = all_lanes
+                except Exception:
+                    self.lanes_by_tls[tls] = []
+
+            lanes = self.lanes_by_tls.get(tls, [])
             lanes = lanes[:4] + [None] * max(0, 4 - len(lanes))
 
             q = []
@@ -163,7 +190,6 @@ class SumoEnv:
             try:
                 next_switch = traci.trafficlight.getNextSwitch(tls)
                 cur_time = traci.simulation.getTime()
-                
                 phase_duration = traci.trafficlight.getPhaseDuration(tls)
                 time_in_phase = max(0.0, phase_duration - max(0.0, next_switch - cur_time))
             except Exception:
@@ -172,6 +198,8 @@ class SumoEnv:
             state[tls] = q + wait + speed + [phase, time_in_phase]
 
         return state
+
+
 
     def find_transition_phase(self, tl, current_phase_idx, target_phase_idx):
         phases = self.phases.get(tl, [])
