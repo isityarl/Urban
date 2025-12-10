@@ -3,11 +3,14 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.distributions import Categorical
-from src.agents.PPO import ActorCritic
+from src.agents.PPO import ActorCriticHeads, SharedBody
 
 class PPOAgent:
     def __init__(self, state_size, tls_phases, config):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.body = SharedBody(state_size).to(self.device)
+        self.heads = ActorCriticHeads(128, tls_phases).to(self.device)
+
         self.tls_phases = tls_phases
 
         self.policies = {}
@@ -20,16 +23,13 @@ class PPOAgent:
         self.ent_coef = config.get('ent_coef', 0.01)
         self.vf_coef = config.get('vf_coef', 0.5)
         self.lr = config.get('learning_rate', 3e-4)
-        self.ppo_epochs = config.get('ppo_epochs', 4)
+        self.ppo_epochs = config.get('ppo_epochs', 7)
         self.minibatch_size = config.get('ppo_batch_size', 64)
         self.max_grad_norm = config.get('max_grad_norm', 0.5)
 
-        for tl, phases in tls_phases.items():
-            act_dim = len(phases)
-            net = ActorCritic(state_size, act_dim).to(self.device)
-            self.policies[tl] = net
-            self.optimizers[tl] = optim.Adam(net.parameters(), lr=self.lr)
-            self.buffers[tl] = []
+
+        self.optimizer = optim.AdamW(list(self.body.parameters()) + list(self.heads.parameters()), lr=self.lr)
+        self.buffers = {tl: [] for tl in tls_phases}
 
     @torch.no_grad()
     def select_action(self, state, tls):
@@ -38,7 +38,8 @@ class PPOAgent:
         for tl in tls:
             s_np = np.asarray(state[tl], dtype=np.float32)
             s = torch.from_numpy(s_np).unsqueeze(0).to(self.device)
-            logits, value = self.policies[tl](s)
+            h = self.body(s)
+            logits, value = self.heads(h, tl)
             dist = Categorical(logits=logits)
             a = dist.sample()
 
@@ -59,7 +60,7 @@ class PPOAgent:
                 'action': int(data['action']),
                 'logp': float(data['logp']),
                 'value': float(data['value']),
-                'reward': float(rewards[tl]),
+                'reward': float(rewards[tl] / 50),
                 'done': d
             })
 
@@ -96,7 +97,8 @@ class PPOAgent:
                     s_np = np.asarray(last_states[tl], dtype=np.float32)
                     s_t = torch.from_numpy(s_np).unsqueeze(0).to(self.device)
                     with torch.no_grad():
-                        _, last_value_t = self.policies[tl](s_t)
+                        h_t = self.body(s_t)
+                        _, last_value_t = self.heads(h_t, tl)
                         last_value = float(last_value_t.cpu().item())
                 else:
                     last_value = float(values[-1]) if len(values) > 0 else 0.0
@@ -118,6 +120,7 @@ class PPOAgent:
             epoch_entropy = 0.0
             count = 0
 
+            params = list(self.body.parameters()) + list(self.heads.parameters())
             for _ in range(self.ppo_epochs):
                 np.random.shuffle(idxs)
                 for start in range(0, N, self.minibatch_size):
@@ -132,7 +135,7 @@ class PPOAgent:
                     adv_mb = adv_t[mb_idx]
                     ret_mb = rets_t[mb_idx]
 
-                    logits, values_pred = self.policies[tl](s_mb)
+                    logits, values_pred = self.heads(self.body(s_mb), tl)
                     dist = Categorical(logits=logits)
                     logp = dist.log_prob(a_mb)
                     ratio = torch.exp(logp - old_logp_mb)
@@ -146,11 +149,11 @@ class PPOAgent:
 
                     loss = policy_loss + self.vf_coef * value_loss - self.ent_coef * entropy
 
-                    self.optimizers[tl].zero_grad()
+                    self.optimizer.zero_grad()
                     loss.backward()
                 
-                    nn.utils.clip_grad_norm_(self.policies[tl].parameters(), self.max_grad_norm)
-                    self.optimizers[tl].step()
+                    nn.utils.clip_grad_norm_(params, self.max_grad_norm)
+                    self.optimizer.step()
 
                     epoch_policy_loss += policy_loss.item()
                     epoch_value_loss += value_loss.item()

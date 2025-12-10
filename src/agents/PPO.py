@@ -2,17 +2,29 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-class ActorCritic(nn.Module):
-    def __init__(self, input_dim, output_dim):
+class SharedBody(nn.Module):
+    def __init__(self, input_dim):
         super().__init__()
         self.fc1 = nn.Linear(input_dim, 128)
         self.fc2 = nn.Linear(128, 128)
-        self.pi  = nn.Linear(128, output_dim)
-        self.v   = nn.Linear(128, 1)
 
     def forward(self, x):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
-        logits = self.pi(x)
-        value  = self.v(x).squeeze(-1)
+        return x
+
+class ActorCriticHeads(nn.Module):
+    def __init__(self, shared_dim, tls_phases):
+        super().__init__()
+        self.pi_heads = nn.ModuleDict()
+        self.v_heads  = nn.ModuleDict()
+        for tl, phases in tls_phases.items():
+            act_dim = len(phases)
+            self.pi_heads[tl] = nn.Linear(shared_dim, act_dim)
+            self.v_heads[tl]  = nn.Linear(shared_dim, 1)
+
+    def forward(self, x, tl):
+        logits = self.pi_heads[tl](x)
+        value  = self.v_heads[tl](x).squeeze(-1)
         return logits, value
+
