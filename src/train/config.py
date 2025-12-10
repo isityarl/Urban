@@ -8,5 +8,14 @@ config = {
     'batch_size': 64,
     'target_update_freq': 500,
     'action_interval': 15,
-    'reward_scale': 50.0
+    'reward_scale': 50.0,
+    'rollout_steps': 1024,
+    'max_steps': 1000,
+    'gae_lambda': 0.95,
+    'clip_eps': 0.2,
+    'ent_coef': 0.01,
+    'vf_coef': 0.5,
+    'ppo_epochs': 7,
+    'ppo_batch_size': 64,
+    'max_grad_norm': 0.5
 }
