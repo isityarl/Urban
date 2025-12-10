@@ -162,10 +162,6 @@ class SumoEnv:
         return state
 
     def find_transition_phase(self, tl, current_phase_idx, target_phase_idx):
-        """
-        Heuristic to find a transition phase (yellow) from current to target.
-        If no suitable transition found, return None to signal direct switch.
-        """
         phases = self.phases.get(tl, [])
         if not phases or current_phase_idx is None:
             return None
