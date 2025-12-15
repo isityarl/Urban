@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-12-11 02:15:24 by Eclipse SUMO netedit Version 1.24.0
+-->
+
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    <!-- StoppingPlaces -->
+    <busStop id="12646933735" name="улица Айтиева" lane="1388681517#3_0" startPos="68.49" endPos="83.49" friendlyPos="1"/>
+    <busStop id="13120667454" name="Нурмакова" lane="1427251618#3_0" startPos="8.32" endPos="23.32" friendlyPos="1"/>
+    <busStop id="13120667506" name="Байзакова" lane="1427251637#1_0" startPos="71.22" endPos="86.22" friendlyPos="1"/>
+    <busStop id="13120667507" name="Муканова" lane="690355194#4_0" startPos="10.15" endPos="25.15" friendlyPos="1"/>
+    <busStop id="13123356461" name="ГКБ №12" lane="694772681_0" startPos="18.69" endPos="33.69" friendlyPos="1"/>
+    <busStop id="1794599637" name="проспект Абая" lane="1103848386#2_0" startPos="43.87" endPos="58.87" friendlyPos="1"/>
+    <busStop id="2476292136" name="Байзакова" lane="257692765#6_0" startPos="10.30" endPos="25.30" friendlyPos="1"/>
+    <busStop id="2522351050" name="Алатау" lane="244967942#0_0" startPos="1463.52" endPos="1663.52" friendlyPos="1" lines="1">
+        <access lane="1357115605_0" pos="23.71" length="34.15" friendlyPos="1"/>
+        <access lane="1357115606_0" pos="23.74" length="20.98" friendlyPos="1"/>
+        <access lane="1357115608#0_0" pos="3.60" length="46.54" friendlyPos="1"/>
+        <access lane="1357115608#1_0" pos="8.39" length="39.40" friendlyPos="1"/>
+        <access lane="137946507#1_0" pos="34.84" length="46.23" friendlyPos="1"/>
+    </busStop>
+    <busStop id="2577857353" name="Розыбакиева" lane="925188161#1_0" startPos="20.75" endPos="35.75" friendlyPos="1"/>
+    <busStop id="2631725839" name="Тургут Озала" lane="257692772#1_0" startPos="72.91" endPos="87.91" friendlyPos="1"/>
+    <busStop id="2631725847" name="Гагарина" lane="1103849646#1_0" startPos="47.77" endPos="62.77" friendlyPos="1"/>
+    <busStop id="2631725861" name="Жарокова" lane="928099279#1_0" startPos="13.56" endPos="28.56" friendlyPos="1"/>
+    <busStop id="2631725865" name="Манаса" lane="1151502640#2_0" startPos="10.33" endPos="25.33" friendlyPos="1"/>
+    <busStop id="2631725880" lane="214215443#1_0" startPos="39.42" endPos="54.42" friendlyPos="1" lines="120"/>
+    <busStop id="27518971" name="ГКБ №12" lane="30811921#1_0" startPos="21.16" endPos="36.16" friendlyPos="1"/>
+    <busStop id="3464799079" name="Сайран" lane="244967942#1_0" startPos="75.99" endPos="275.99" friendlyPos="1" lines="1">
+        <access lane="1120640152#1_0" pos="28.75" length="29.99" friendlyPos="1"/>
+        <access lane="1315947365#1_0" pos="53.95" length="5.95" friendlyPos="1"/>
+        <access lane="1315947365#2_0" pos="59.67" length="20.17" friendlyPos="1"/>
+        <access lane="237878526#5_0" pos="28.77" length="18.94" friendlyPos="1"/>
+        <access lane="353278597#1_0" pos="140.69" length="16.71" friendlyPos="1"/>
+    </busStop>
+    <busStop id="3521301807" name="Автовокзал Сайран" lane="1410047973#1_0" startPos="3.05" endPos="18.05" friendlyPos="1"/>
+    <busStop id="9947103587" lane="368117174#1_0" startPos="102.33" endPos="117.33" friendlyPos="1"/>
+</additional>
