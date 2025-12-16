@@ -11,7 +11,6 @@ def evaluate_trained_ppo_single_env(
     max_steps=1000,
     gui=True
 ):
-    print("\n===== PPO SINGLE-ENV EVALUATION =====")
     print(f"Model: {model_path}")
     print(f"Episodes: {eval_episodes}")
     print(f"Max steps per episode: {max_steps}")
@@ -56,19 +55,17 @@ def evaluate_trained_ppo_single_env(
 
         while not done and steps < max_steps:
 
-            # ---- Select action (DETERMINISTIC PPO) ----
             if last_actions is None or steps % action_interval == 0:
                 with torch.no_grad():
                     actions, _ = agent.select_action(
                         state,
                         tls_list,
-                        deterministic=True   # 🔴 IMPORTANT
+                        deterministic=True 
                     )
                 last_actions = actions
             else:
                 actions = last_actions
 
-            # ---- Step environment ----
             state, rewards, done, _ = env.step(actions)
 
             total_reward += sum(rewards.values())
@@ -78,18 +75,9 @@ def evaluate_trained_ppo_single_env(
 
     env.close()
 
-    print("\n===== PPO EVALUATION FINISHED =====")
-    print(
-        "\n📌 NOTE:\n"
-        "SUMO performance statistics (WaitingTime, TimeLoss, Speed, Teleports)\n"
-        "are written to the SUMO log files automatically.\n"
-        "Use those logs for quantitative comparison vs baseline."
-    )
-
-
 if __name__ == "__main__":
     evaluate_trained_ppo_single_env(
-        model_path="back/res/models/PPO/model_parallel_ep700.pth",
+        model_path="back/res/models/PPO/model_ep100.pth",
         eval_episodes=1,
         max_steps=1000,
         gui=True

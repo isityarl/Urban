@@ -13,7 +13,6 @@ def evaluate_trained_model_single_env(
     print(f"Model: {model_path}")
     print(f"Episodes: {eval_episodes}")
 
-    # ---- Create SUMO environment ----
     env = SumoEnv(
         cfg_path="back/data/osm.sumocfg",
         net_path="back/data/osm.net.xml.gz",
@@ -21,18 +20,15 @@ def evaluate_trained_model_single_env(
         step_length=1
     )
 
-    # ---- Reset once to get TLS phases ----
     state = env.reset()
     tls_phases = env.main_phases
 
-    # ---- Create agent ----
     agent = BaseAgent(
         state_size=14,
         tls_phases=tls_phases,
         config=config
     )
 
-    # ---- Load trained model ----
     checkpoint = torch.load(model_path, map_location=agent.device)
 
     for tl, net in agent.policy_net.items():
@@ -40,7 +36,6 @@ def evaluate_trained_model_single_env(
             net.load_state_dict(checkpoint["models"][tl])
             net.eval()
 
-    # 🔴 Disable exploration
     agent.epsilon = 0.0
 
     tls_list = list(tls_phases.keys())
@@ -82,15 +77,6 @@ def evaluate_trained_model_single_env(
     df = pd.DataFrame(results)
     save_path = "back/res/logs/DQN/evaluate/eval_single_env_rewards.csv"
     df.to_csv(save_path, index=False)
-
-    print("\n===== EVALUATION FINISHED =====")
-    print(f"Rewards saved to: {save_path}")
-    print(
-        "\n📌 NOTE:\n"
-        "SUMO performance metrics (WaitingTime, TimeLoss, Speed, etc.)\n"
-        "are automatically written to the SUMO log file specified in osm.sumocfg.\n"
-        "Compare those logs against your baseline runs to show improvement."
-    )
 
 
 if __name__ == "__main__":

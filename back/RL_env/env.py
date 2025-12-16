@@ -55,6 +55,7 @@ class SumoEnv:
                 rl_indices = list(range(len(phases)))
             self.rl_phase_map[tl] = rl_indices
 
+        self.phase_start_time = {}
         self.pending_transition = {}
         self.transition_duration = 2
 
@@ -84,6 +85,7 @@ class SumoEnv:
         return phases
 
     def reset(self, episode=0, env_id=0):
+        self.phase_start_time = {}
         if traci.isLoaded():
             try:
                 traci.close()
@@ -93,7 +95,12 @@ class SumoEnv:
         binary = "sumo-gui" if self.gui else "sumo"
         self.current = 0
 
-        logfile = f"back/res/logs/DQN/evaluate/env_{env_id}_ep{episode}.log"
+        # logfile = f"back/res/logs/DQN/details/env_{env_id}_ep{episode}.log"
+        # logfile = f"back/res/logs/DQN/evaluate/env_{env_id}_ep{episode}.log"
+        log_dir = "back/res/logs/PPO/details"
+        os.makedirs(log_dir, exist_ok=True)
+        logfile = f"{log_dir}/ep{episode}.log"
+        # logfile = f"back/res/logs/PPO/evaluate/env_{env_id}_ep{episode}.log"
         traci.start([
             binary,
             "-c", self.cfg_path,
@@ -184,8 +191,16 @@ class SumoEnv:
 
             try:
                 phase = traci.trafficlight.getPhase(tls)
+                sim_time = traci.simulation.getTime()
+
+                if tls not in self.phase_start_time or self.phase_start_time[tls][0] != phase:
+                    self.phase_start_time[tls] = (phase, sim_time)
+
+                time_in_phase = sim_time - self.phase_start_time[tls][1]
             except Exception:
                 phase = 0
+                time_in_phase = 0.0
+
 
             try:
                 next_switch = traci.trafficlight.getNextSwitch(tls)
@@ -322,7 +337,7 @@ class SumoEnv:
         rewards = {}
 
         alpha = 1.0
-        beta = 0.25
+        beta = 0.75
         gamma = 0.1
         delta = 0.8
         epsilon = 0.05
@@ -351,6 +366,40 @@ class SumoEnv:
             rewards[tls] = float(reward)
 
         return rewards
+    
+    # def get_reward(self, state=None):
+    #     if state is None:
+    #         state = self.get_state()
+
+    #     total_reward = 0.0
+
+    #     alpha = 1.0
+    #     beta = 0.75
+    #     gamma = 0.1
+    #     delta = 0.8
+    #     epsilon = 0.05
+
+    #     for tls in self.main_tls:
+    #         tls_state = state[tls]
+    #         q = np.array(tls_state[0:4])
+    #         wait = np.array(tls_state[4:8])
+    #         speed = np.array(tls_state[8:12])
+    #         phase = tls_state[12]
+    #         time_in_phase = tls_state[13]
+
+    #         total_queue = np.sum(q)
+    #         total_wait = np.sum(wait)
+    #         avg_speed = np.mean(speed)
+
+    #         lane_imbalance = np.std(q)
+
+    #         phase_penalty = max(time_in_phase - 10, 0)
+
+    #         reward = (-(alpha * total_queue + beta * total_wait + delta * lane_imbalance + epsilon * phase_penalty) + gamma * avg_speed) / len(self.main_tls)
+
+    #         total_reward += reward
+
+    #     return total_reward / len(self.main_tls)
 
     def get_done(self):
         if self.current >= self.max_steps:
@@ -381,7 +430,7 @@ class SumoEnv:
         rewards = self.get_reward(state)
         done = self.get_done()
 
-        return state, rewards, done, {}
+        return state, rewards, done, {'time_limit': done}
 
     def close(self):
         try:

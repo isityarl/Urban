@@ -3,129 +3,149 @@ import numpy as np
 import os
 import time
 import pandas as pd
+import matplotlib.pyplot as plt
 from back.agents.PPO_agent import PPOAgent
-from back.RL_env.parallel_env import ParallelEnvs
+from back.RL_env.env import SumoEnv
 from back.train.config import config
 
-def train_parallel_ppo(num_envs=4, episodes=100, pre_model=None, gui=False):
-    print(f"Starting parallel PPO with {num_envs} SUMO environments (CPU/GPU)")
-
-    envs = ParallelEnvs(
-        num_envs=num_envs,
-        cfg="back/data/osm.sumocfg",
-        net="back/data/osm.net.xml.gz",
+def train_ppo(episodes=100, pre_model=None, gui=False, live_plot=True):
+    env = SumoEnv(
+        cfg_path="back/data/osm.sumocfg",
+        net_path="back/data/osm.net.xml.gz",
         gui=gui,
         step_length=1
     )
 
-    states_list = envs.reset()
-    first_reset = states_list[0]
-
-    if "main_phases" not in first_reset:
-        tls_phases = first_reset.get("phases") or first_reset.get("state_phases") or {}
-        print("Warning: 'main_phases' not found. Using fallback.")
-    else:
-        tls_phases = first_reset["main_phases"]
+    tls_phases = env.main_phases
+    tls_list = list(tls_phases.keys())
 
     agent = PPOAgent(state_size=14, tls_phases=tls_phases, config=config)
-    tls_list = list(agent.tls_phases.keys())
 
     if pre_model is not None and os.path.exists(pre_model):
         ckpt = torch.load(pre_model, map_location=agent.device)
         agent.body.load_state_dict(ckpt["body"])
         agent.heads.load_state_dict(ckpt["heads"])
-        print("Pretrained PPO model loaded")
+        if "optimizer" in ckpt:
+            agent.optimizer.load_state_dict(ckpt["optimizer"])
+        start_episode = ckpt.get("episode", 0) + 1
+        print(f"Continuing PPO training from episode {start_episode}")
+    else:
+        start_episode = 1
 
+    action_interval = config.get("action_interval", 15)
+    rollout_steps = config.get("rollout_steps", 2048)
 
-    rewards_all_episodes = []
+    rewards_log = []
 
-    rollout_steps = config.get('rollout_steps')
-    action_interval = config.get('action_interval')
-
-    for episode in range(1, episodes + 1):
-        states_list = envs.reset()
-
-        episode_rewards = [0.0] * num_envs
-        done_flags = [False] * num_envs
-        last_actions = [{tl: 0 for tl in tls_list} for _ in range(num_envs)]
-        last_infos = [{tl: {'state': states_list[i]["state"][tl], 'action': 0, 'logp': 0.0, 'value': 0.0} 
-                       for tl in tls_list} for i in range(num_envs)]
-
-        steps_done = 0
-        rollout_counter = 0
+    for episode in range(start_episode, episodes + 1):
+        state = env.reset(episode=episode)
+        done = False
+        ep_reward = 0
+        step_count = 0
+        rollout_count = 0
+        last_action = None
+        last_infos = None
+        acc_rewards = {tl: 0.0 for tl in tls_list}
         t0 = time.time()
 
-        while not all(done_flags):
-            actions_list = []
-            infos_list = []
+        while not done:
+            if last_action is None or step_count % action_interval == 0:
+                actions, infos = agent.select_action(state, tls_list)
+                last_action = actions
+                last_infos = infos
+            else:
+                actions = last_action
+                infos = last_infos
 
-            for i, state_dict in enumerate(states_list):
-                if last_actions[i] is None or steps_done % action_interval == 0:
-                    actions, infos = agent.select_action(state_dict["state"], tls_list)
-                    last_actions[i] = actions
-                    last_infos[i] = infos
-                else:
-                    actions = last_actions[i]
-                    infos = last_infos[i]
+            next_state, rewards, done, _ = env.step(actions)
 
-                actions_list.append(actions)
-                infos_list.append(infos)
+            for tl in tls_list:
+                acc_rewards[tl] += rewards[tl]
+            ep_reward += sum(rewards.values())
 
-            next_list = envs.step(actions_list)
+            step_count += 1
+            if step_count % action_interval == 0:
+                agent.store(last_infos, acc_rewards, done, time_limit=(step_count >= env.max_steps))
+                acc_rewards = {tl: 0.0 for tl in tls_list}
+                rollout_count += 1
 
-            for i, s_dict in enumerate(next_list):
-                agent.store(infos_list[i], s_dict["rewards"], s_dict["done"])
-                episode_rewards[i] += sum(s_dict["rewards"][tl] for tl in tls_list)
-                done_flags[i] = done_flags[i] or s_dict["done"]
+            state = next_state    
 
-            states_list = next_list
-            steps_done += 1
-            rollout_counter += 1
-
-            if rollout_counter >= rollout_steps or all(done_flags):
-                last_states_dict = {tl: states_list[0]["state"][tl] for tl in tls_list} if not all(done_flags) else None
-                stats = agent.update(last_states=last_states_dict, done=all(done_flags), verbose=True)
+            if rollout_count >= rollout_steps or done:
+                stats = agent.update(last_states=state if not done else None, done=done, verbose=True)
                 agent.clear_buffers()
-                rollout_counter = 0
+                rollout_count = 0
+
                 if stats:
-                    mean_policy = np.mean([s['policy_loss'] for s in stats.values()])
-                    mean_value  = np.mean([s['value_loss'] for s in stats.values()])
-                    mean_entropy = np.mean([s['entropy'] for s in stats.values()])
-                    tot_samples = sum([s['samples'] for s in stats.values()])
-                    print(f"Update: samples={tot_samples} | policy_loss={mean_policy:.4f} "
-                          f"| value_loss={mean_value:.4f} | entropy={mean_entropy:.4f}")
+                    tl_stats = {k: v for k, v in stats.items() if isinstance(v, dict)}
+                    mean_grad = stats.get("grad_norm", 0.0)
+                    
+                    if tl_stats:
+                        mean_pol = np.mean([s["policy_loss"] for s in tl_stats.values()])
+                        mean_val = np.mean([s["value_loss"] for s in tl_stats.values()])
+                        mean_ent = np.mean([s["entropy"] for s in tl_stats.values()])
+                        samples = sum(s["samples"] for s in tl_stats.values())
+                    else:
+                        mean_pol = mean_val = mean_ent = 0.0
+                        samples = 0
+
+                    print(
+                        f"PPO update | samples={samples} "
+                        f"| policy={mean_pol:.4f} "
+                        f"| value={mean_val:.4f} "
+                        f"| entropy={mean_ent:.4f} "
+                        f"| grad_norm={mean_grad:.4f}"
+                    )
 
         ep_time = time.time() - t0
-        print(f"Episode {episode}/{episodes} | Rewards: {episode_rewards} | Steps: {steps_done} | Time: {ep_time:.1f}s")
-        rewards_all_episodes.append(episode_rewards)
+        rewards_log.append(ep_reward)
+
+        print(
+            f"Episode {episode}/{episodes} | "
+            f"Reward: {ep_reward:.2f} | "
+            f"Steps: {step_count} | "
+            f"Time: {ep_time:.1f}s"
+        )
 
         if episode % 100 == 0:
-            ckpt_dir = "back/res/models/PPO"
-            os.makedirs(ckpt_dir, exist_ok=True)
-            save_path = os.path.join(ckpt_dir, f"model_parallel_ep{episode}.pth")
-            ckpt = {
+            os.makedirs('back/res/models/PPO', exist_ok=True)
+            save_path = f"back/res/models/PPO/model_ep{episode}.pth"
+            torch.save({
                 "body": agent.body.state_dict(),
                 "heads": agent.heads.state_dict(),
-            }
-            torch.save(ckpt, save_path)
+                "optimizer": agent.optimizer.state_dict(),
+                "episode": episode
+            }, save_path)
+            print("Saved checkpoint")
 
-            print(f"Saved checkpoint: {save_path}")
+            reward_path = f"back/res/logs/PPO/training_rewards_ep{episode}.csv"
+            pd.DataFrame({"reward": rewards_log}).to_csv(reward_path, index=False)
+            print("Saved rewards")
 
     os.makedirs("back/res/models/PPO", exist_ok=True)
-    final_path = os.path.join("back/res/models/PPO", "model_parallel_final.pth")
-    ckpt = {
-        "body": agent.body.state_dict(),
-        "heads": agent.heads.state_dict(),
-    }
-    torch.save(ckpt, final_path)
+    final_path = "back/res/models/PPO/model_final.pth"
+    torch.save(
+        {
+            "body": agent.body.state_dict(),
+            "heads": agent.heads.state_dict(),
+        },
+        final_path
+    )
     print("Final model saved")
 
     os.makedirs("back/res/logs/PPO", exist_ok=True)
-    df = pd.DataFrame(rewards_all_episodes, columns=[f"env{i}" for i in range(num_envs)])
-    df.to_csv("back/res/logs/PPO/model_parallel.csv", index=False)
-    print("Rewards log saved")
+    pd.DataFrame({"reward": rewards_log}).to_csv(
+        "back/res/logs/PPO/training_rewards.csv",
+        index=False
+    )
+    print("Reward log saved")
 
-    envs.close()
+    env.close()
+
+    if live_plot:
+        plt.ioff()
+        plt.show()
+
 
 if __name__ == "__main__":
-    train_parallel_ppo(num_envs=4, episodes=1000, gui=False)
+    train_ppo(episodes=2, gui=False)
