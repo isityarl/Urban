@@ -1,0 +1,43 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Умный маршрут" [level=1] [ref=e6]
+      - paragraph [ref=e7]: OSM + RL светофоры · ETA · лучшее время выезда
+    - generic [ref=e8]:
+      - generic [ref=e9]: Алматы · GMT+5
+      - button "Тёмная" [ref=e10] [cursor=pointer]
+  - generic [ref=e11]:
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]: Откуда (адрес или lat,lon)
+          - textbox "Например, Алматы, Абая 10 или 43.2389,76.8897" [ref=e16]: 43.238949,76.889709
+        - generic [ref=e17]:
+          - generic [ref=e18]: Куда (адрес или lat,lon)
+          - textbox "Например, Байтурсынова 50 или 43.2567,76.9286" [ref=e19]: 43.256700,76.928600
+        - generic [ref=e20]:
+          - generic [ref=e21]: Время выезда
+          - textbox "Время выезда" [ref=e22]: 2025-12-15T15:11
+        - button "Построить маршрут" [ref=e23] [cursor=pointer]
+        - button "Сбросить" [ref=e24] [cursor=pointer]
+      - generic [ref=e26]: Введите точки или выберите адреса, затем постройте маршрут.
+      - generic [ref=e27]:
+        - button "Очистить результат" [ref=e28] [cursor=pointer]
+        - button "Повторить запрос" [disabled] [ref=e29]
+    - generic [ref=e32]:
+      - generic:
+        - generic [ref=e33]:
+          - button "Zoom in" [ref=e34] [cursor=pointer]: +
+          - button "Zoom out" [ref=e35] [cursor=pointer]: −
+        - generic [ref=e36]:
+          - link "Leaflet" [ref=e37] [cursor=pointer]:
+            - /url: https://leafletjs.com
+            - img [ref=e38]
+            - text: Leaflet
+          - text: "| ©"
+          - link "OSM" [ref=e42] [cursor=pointer]:
+            - /url: https://www.openstreetmap.org/copyright
+```
