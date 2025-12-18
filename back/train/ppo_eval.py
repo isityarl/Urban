@@ -5,16 +5,7 @@ from back.RL_env.env import SumoEnv
 from back.train.config import config
 
 
-def evaluate_trained_ppo_single_env(
-    model_path,
-    eval_episodes=1,
-    max_steps=1000,
-    gui=True
-):
-    print(f"Model: {model_path}")
-    print(f"Episodes: {eval_episodes}")
-    print(f"Max steps per episode: {max_steps}")
-
+def evaluate_trained_ppo_single_env(model_path, eval_episodes=1, max_steps=1000, gui=True):
     env = SumoEnv(
         cfg_path="back/data/osm.sumocfg",
         net_path="back/data/osm.net.xml.gz",

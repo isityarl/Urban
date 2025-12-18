@@ -97,10 +97,10 @@ class SumoEnv:
 
         # logfile = f"back/res/logs/DQN/details/env_{env_id}_ep{episode}.log"
         # logfile = f"back/res/logs/DQN/evaluate/env_{env_id}_ep{episode}.log"
-        log_dir = "back/res/logs/PPO/details"
-        os.makedirs(log_dir, exist_ok=True)
-        logfile = f"{log_dir}/ep{episode}.log"
-        # logfile = f"back/res/logs/PPO/evaluate/env_{env_id}_ep{episode}.log"
+        # log_dir = "back/res/logs/PPO/details"
+        # os.makedirs(log_dir, exist_ok=True)
+        # logfile = f"{log_dir}/ep{episode}.log"
+        logfile = f"back/res/logs/PPO/evaluate/env_{env_id}_ep{episode}.log"
         traci.start([
             binary,
             "-c", self.cfg_path,

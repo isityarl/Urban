@@ -1,17 +1,19 @@
 import torch
 import pandas as pd
+import random
+import numpy as np
 from back.agents.CORE_agent import BaseAgent
 from back.RL_env.env import SumoEnv
 from back.train.config import config
 
 
-def evaluate_trained_model_single_env(
-    model_path,
-    eval_episodes=5
-):
-    print("\n===== SINGLE-ENV EVALUATION =====")
+def eval_DQN(model_path, eval_episodes=5):
     print(f"Model: {model_path}")
     print(f"Episodes: {eval_episodes}")
+
+    torch.manual_seed(0)
+    np.random.seed(0)
+    random.seed(0)
 
     env = SumoEnv(
         cfg_path="back/data/osm.sumocfg",
@@ -22,6 +24,9 @@ def evaluate_trained_model_single_env(
 
     state = env.reset()
     tls_phases = env.main_phases
+    tls_list = list(tls_phases.keys())
+
+    state_size = len(next(iter(state.values())))
 
     agent = BaseAgent(
         state_size=14,
@@ -39,7 +44,7 @@ def evaluate_trained_model_single_env(
     agent.epsilon = 0.0
 
     tls_list = list(tls_phases.keys())
-    action_interval = config.get("action_interval", 30)
+    action_interval = config.get("action_interval", 15)
 
     results = []
 
@@ -51,7 +56,9 @@ def evaluate_trained_model_single_env(
         last_action = None
         steps = 0
 
-        total_reward = 0.0
+        shaped_reward = 0.0
+        env_reward = 0.0
+        acc_rewards = {tl: 0.0 for tl in tls_list}
 
         while not done:
             if last_action is None or steps % action_interval == 0:
@@ -60,27 +67,24 @@ def evaluate_trained_model_single_env(
             else:
                 action = last_action
 
-            state, rewards, done, _ = env.step(action)
+            next_state, rewards, done, _ = env.step(action)
+            env_reward += sum(rewards.values())
 
-            total_reward += sum(rewards.values())
+            for tl in tls_list:
+                acc_rewards[tl] += rewards.get(tl, 0.0)
+
+            if steps % action_interval == 0:
+                shaped_reward += sum(acc_rewards.values())
+                acc_rewards = {tl: 0.0 for tl in tls_list}
+
+            state = next_state
             steps += 1
 
-        print(f"Episode reward: {total_reward:.2f}")
-
-        results.append({
-            "episode": ep,
-            "total_reward": total_reward
-        })
+        print(f"Shaped reward (training-style): {shaped_reward:.2f}")
+        print(f"Env reward (raw SUMO):          {env_reward:.2f}")
 
     env.close()
 
-    df = pd.DataFrame(results)
-    save_path = "back/res/logs/DQN/evaluate/eval_single_env_rewards.csv"
-    df.to_csv(save_path, index=False)
-
-
 if __name__ == "__main__":
-    evaluate_trained_model_single_env(
-        model_path="back/res/models/DQN/model_parallel_ep1600.pth",
-        eval_episodes=1
-    )
+    eval_DQN(
+        model_path="back/res/models/DQN/model_parallel_ep2500.pth",eval_episodes=1)
