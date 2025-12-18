@@ -20,7 +20,7 @@ function formatLocalInput(date: Date) {
   return `${y}-${m}-${d}T${h}:${min}`;
 }
 
-export function RouteForm({ onSubmit, loading }: Props) {
+export function RouteForm({ onSubmit, loading, onReset }: Props) {
   const defaultValue = formatLocalInput(new Date(Date.now() + 15 * 60 * 1000));
 
   // Default points near Almaty for quick testing
