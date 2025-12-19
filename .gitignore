@@ -4,9 +4,10 @@
 __pycache__
 *.log
 *.dump
+*.pth
 /baseline
-/back/res/models
-
+/back/res/models/
+*.zip
 !*.sumocfg
 !*.net.xml
 !*.rou.xml
