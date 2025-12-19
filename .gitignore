@@ -7,6 +7,7 @@ __pycache__
 *.pth
 /baseline
 /back/res/models/
+back/res.zip
 *.zip
 !*.sumocfg
 !*.net.xml
