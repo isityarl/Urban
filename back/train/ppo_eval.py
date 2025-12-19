@@ -68,7 +68,7 @@ def evaluate_trained_ppo_single_env(model_path, eval_episodes=1, max_steps=1000,
 
 if __name__ == "__main__":
     evaluate_trained_ppo_single_env(
-        model_path="back/res/models/PPO/model_ep100.pth",
+        model_path="back/res/models/PPO/model_ep1300.pth",
         eval_episodes=1,
         max_steps=1000,
         gui=False

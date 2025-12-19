@@ -13,22 +13,17 @@ map.on("click", (e) => {
   if (points.length >= 2) return;
 
   points.push(e.latlng);
-
   const marker = L.marker(e.latlng).addTo(map);
   markers.push(marker);
 
-  if (points.length === 1) {
-    marker.bindPopup("Point A").openPopup();
-  } else {
-    marker.bindPopup("Point B").openPopup();
-  }
+  marker.bindPopup(points.length === 1 ? "Point A" : "Point B").openPopup();
 });
 
 document.getElementById("runBtn").onclick = async () => {
   const output = document.getElementById("output");
 
   if (points.length < 2) {
-    output.textContent = "Select Point A and Point B";
+    output.textContent = "⚠️ Select Point A and Point B";
     return;
   }
 
@@ -48,6 +43,6 @@ document.getElementById("runBtn").onclick = async () => {
     output.textContent = JSON.stringify(data, null, 2);
 
   } catch (err) {
-    output.textContent = err.message;
+    output.textContent = `❌ Error: ${err.message}`;
   }
 };
