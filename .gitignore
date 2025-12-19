@@ -5,6 +5,7 @@ __pycache__
 *.log
 *.dump
 /baseline
+/back/res/models
 
 !*.sumocfg
 !*.net.xml
