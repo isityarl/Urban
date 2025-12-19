@@ -71,5 +71,5 @@ if __name__ == "__main__":
         model_path="back/res/models/PPO/model_ep100.pth",
         eval_episodes=1,
         max_steps=1000,
-        gui=True
+        gui=False
     )

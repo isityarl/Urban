@@ -18,7 +18,7 @@ def eval_DQN(model_path, eval_episodes=5):
     env = SumoEnv(
         cfg_path="back/data/osm.sumocfg",
         net_path="back/data/osm.net.xml.gz",
-        gui=True,
+        gui=False,
         step_length=1
     )
 
@@ -86,5 +86,7 @@ def eval_DQN(model_path, eval_episodes=5):
     env.close()
 
 if __name__ == "__main__":
-    eval_DQN(
-        model_path="back/res/models/DQN/model_parallel_ep2500.pth",eval_episodes=1)
+    evaluate_trained_model_single_env(
+        model_path="back/res/models/DQN/model_parallel_ep1600.pth",
+        eval_episodes=1
+    )

@@ -1,0 +1,35 @@
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+#map {
+  height: 50%;
+}
+
+.panel {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: #020617;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  width: 280px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.5);
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+pre {
+  margin-top: 10px;
+  font-size: 12px;
+}

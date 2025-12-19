@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <routes>
+    <vType id="veh_passenger" vClass="passenger"/>
+    <trip id="specialveh" type="veh_passenger"
+    depart="0"
+    departLane="best"
+    from="1137303081#1"
+    to="1107196832#1"/>
+    </routes>
+    

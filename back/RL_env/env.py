@@ -30,12 +30,13 @@ class SumoEnv:
         'cluster_11383565816_12553582494_12553582498_260710611_#1more'
     ]
 
-    def __init__(self, cfg_path, net_path, gui=False, step_length=1):
+    def __init__(self, cfg_path, net_path, gui=False, step_length=1, scale=1.5):
         self.cfg_path = cfg_path
         self.net_path = net_path
         self.gui = gui
         self.step_length = step_length
         self.max_steps = 1000
+        self.scale = scale
 
         self.lanes_by_tls = {}
         self.controlled_tls = self.find_all_intersections()
@@ -92,15 +93,15 @@ class SumoEnv:
             except Exception:
                 pass
 
-        binary = "sumo-gui" if self.gui else "sumo"
+        binary = "sumo"
         self.current = 0
 
         # logfile = f"back/res/logs/DQN/details/env_{env_id}_ep{episode}.log"
         # logfile = f"back/res/logs/DQN/evaluate/env_{env_id}_ep{episode}.log"
-        # log_dir = "back/res/logs/PPO/details"
-        # os.makedirs(log_dir, exist_ok=True)
-        # logfile = f"{log_dir}/ep{episode}.log"
-        logfile = f"back/res/logs/PPO/evaluate/env_{env_id}_ep{episode}.log"
+        log_dir = "back/res/logs/PPO/details"
+        os.makedirs(log_dir, exist_ok=True)
+        logfile = f"{log_dir}/ep{episode}.log"
+        # logfile = f"back/res/logs/PPO/evaluate/env_{env_id}_ep{episode}.log"
         traci.start([
             binary,
             "-c", self.cfg_path,
@@ -108,10 +109,9 @@ class SumoEnv:
             "--no-step-log",
             "--start",
             "--no-warnings",
-            "--scale", "1.5",
+            "--scale", str(self.scale),
             "--duration-log.statistics",
-            "--verbose",
-            "--log", logfile
+            "--verbose"
         ])
         self.current = 0
 

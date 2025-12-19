@@ -12,8 +12,9 @@ def evaluate_fixed_time_baseline(
     env = SumoEnv(
         cfg_path="back/data/osm.sumocfg",
         net_path="back/data/osm.net.xml.gz",
-        gui=True,
-        step_length=1
+        gui=False,
+        step_length=1,
+        scale=3
     )
 
     results = []
